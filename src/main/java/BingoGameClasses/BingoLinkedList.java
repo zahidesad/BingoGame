@@ -40,7 +40,7 @@ public class BingoLinkedList<T> {
         Node<T> newNode = new Node<>(data);
         Node<T> current = head;
         while (current != null) {
-            if (current.data == key) {
+            if (current.data.equals(key)) {
                 newNode.next = current.next;
                 if (current.next != null) {
                     current.next.prev = newNode;
@@ -60,7 +60,7 @@ public class BingoLinkedList<T> {
     public void remove(T key) {
         Node<T> current = head;
         while (current != null) {
-            if (current.data == key) {
+            if (current.data.equals(key)) {
                 if (current == head) {
                     head = head.next;
                     if (head != null) {
@@ -82,8 +82,46 @@ public class BingoLinkedList<T> {
         }
     }
 
+    public void set(int index, T data) {
+        Node<T> node = getNode(index);
+        if (node != null) {
+            node.data = data;
+        }
+    }
+
+    private Node<T> getNode(int index) {
+        Node<T> current = head;
+        for (int i = 0; current != null && i < index; i++) {
+            current = current.next;
+        }
+        return current;
+    }
+
+    public boolean contains(T data) {
+        Node<T> current = head;
+        while (current != null) {
+            if (current.data.equals(data)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current.data;
+    }
+
     public void printList() {
-        Node current = head;
+        Node<T> current = head;
         while (current != null) {
             System.out.print(current.data + " ");
             current = current.next;
