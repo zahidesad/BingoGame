@@ -1,4 +1,4 @@
-package bingogame;
+package BingoGameGUI;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -99,7 +99,6 @@ public class MainFrame extends javax.swing.JFrame {
         txtPlayerCount.setBackground(new java.awt.Color(95, 158, 160));
         txtPlayerCount.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         txtPlayerCount.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPlayerCount.setText("2");
         SettingsPanel.add(txtPlayerCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 50, 40));
 
         MainJPanel.add(SettingsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 160, 410, 400));
@@ -124,9 +123,11 @@ public class MainFrame extends javax.swing.JFrame {
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Please enter a number of players between 1 and 4!", "Error", JOptionPane.ERROR_MESSAGE);
+                txtPlayerCount.setText("");
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter a number!", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPlayerCount.setText("");
         }
 
     }//GEN-LAST:event_PlayingButtonActionPerformed

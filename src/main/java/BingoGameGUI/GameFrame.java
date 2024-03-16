@@ -1,5 +1,6 @@
-package bingogame;
+package BingoGameGUI;
 
+import java.awt.Color;
 import javax.swing.ImageIcon;
 
 /**
