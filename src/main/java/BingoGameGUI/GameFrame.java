@@ -181,6 +181,7 @@ public class GameFrame extends javax.swing.JFrame {
         imageLabel = new javax.swing.JLabel();
         numberLabel = new javax.swing.JLabel();
         numberIsLabel = new javax.swing.JLabel();
+        customJButton1 = new Custom_GUI_Components.CustomJButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1133,12 +1134,22 @@ public class GameFrame extends javax.swing.JFrame {
         numberLabel.setFont(new java.awt.Font("Stencil", 1, 14)); // NOI18N
         numberLabel.setForeground(new java.awt.Color(0, 0, 0));
         numberLabel.setText("11");
-        MainJPanel.add(numberLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 340, 20, 30));
+        MainJPanel.add(numberLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 340, 20, 30));
 
         numberIsLabel.setFont(new java.awt.Font("Stencil", 1, 14)); // NOI18N
         numberIsLabel.setForeground(new java.awt.Color(0, 0, 0));
         numberIsLabel.setText("Number is :");
-        MainJPanel.add(numberIsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 340, 90, 30));
+        MainJPanel.add(numberIsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 340, 90, 30));
+
+        customJButton1.setBackground(new java.awt.Color(95, 158, 160));
+        customJButton1.setForeground(new java.awt.Color(0, 0, 0));
+        customJButton1.setText("Click for new number");
+        customJButton1.setBorderColor(new java.awt.Color(255, 255, 255));
+        customJButton1.setColorClick(new java.awt.Color(95, 158, 160));
+        customJButton1.setColorOver(new java.awt.Color(95, 158, 160));
+        customJButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        customJButton1.setRadius(40);
+        MainJPanel.add(customJButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 370, 150, 40));
 
         getContentPane().add(MainJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1172, 615));
 
@@ -1297,6 +1308,7 @@ public class GameFrame extends javax.swing.JFrame {
     private javax.swing.JPanel Player2CardJPanel;
     private javax.swing.JPanel Player3CardJPanel;
     private javax.swing.JPanel Player4CardJPanel;
+    private Custom_GUI_Components.CustomJButton customJButton1;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

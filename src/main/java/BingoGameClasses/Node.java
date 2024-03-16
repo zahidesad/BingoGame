@@ -1,6 +1,5 @@
 package BingoGameClasses;
 
-import java.util.LinkedList;
 
 /**
  *
@@ -14,6 +13,9 @@ public class Node<T> {
 
     public Node(T data) {
         this.data = data;
+    }
+
+    public Node() {
     }
 
 }
