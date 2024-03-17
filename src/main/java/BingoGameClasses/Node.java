@@ -1,6 +1,5 @@
 package BingoGameClasses;
 
-
 /**
  *
  * @author zahid
