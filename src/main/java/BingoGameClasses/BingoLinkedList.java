@@ -5,12 +5,13 @@ import java.util.function.Predicate;
 /**
  *
  * @author zahid
+ * @param <T>
  */
 public class BingoLinkedList<T> {
 
     Node<T> head;
     Node<T> tail;
-    int size;
+    public int size;
 
     public void addToFirst(T data) {
         Node<T> newNode = new Node<>(data);

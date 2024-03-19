@@ -1,7 +1,11 @@
 package BingoGameGUI;
 
-import java.awt.Color;
 import javax.swing.ImageIcon;
+import BingoGameClasses.*;
+import java.awt.Component;
+import Custom_GUI_Components.CustomJLabel;
+import java.awt.Color;
+import java.util.Random;
 
 /**
  *
@@ -10,13 +14,38 @@ import javax.swing.ImageIcon;
 public class GameFrame extends javax.swing.JFrame {
 
     private int playerCount;
+    BingoGameController bingoGameController = new BingoGameController();
     ImageIcon imageBag = new ImageIcon("bag-image.png");
+    Random random = new Random();
+    // Generate a BingoLinkedList for selecting a random number
+    BingoLinkedList<Integer> randomNumbers = randomNumbers = new BingoLinkedList<>();
+
+    //Define a BingoLinkedList for card mumbers
+    BingoLinkedList<Integer> card1Numbers;
+    BingoLinkedList<Integer> card2Numbers;
+    BingoLinkedList<Integer> card3Numbers;
+    BingoLinkedList<Integer> card4Numbers;
+    //Define BingoLinkedList to hold JLabek on cards
+    BingoLinkedList<CustomJLabel> card1Circles = new BingoLinkedList<>();
+    BingoLinkedList<CustomJLabel> card2Circles = new BingoLinkedList<>();
+    BingoLinkedList<CustomJLabel> card3Circles = new BingoLinkedList<>();
+    BingoLinkedList<CustomJLabel> card4Circles = new BingoLinkedList<>();
+
     public GameFrame(int playerCount) {
         initComponents();
-        this.setSize(1172,615);
+        this.setSize(1172, 615);
         imageLabel.setIcon(imageBag);
         this.playerCount = playerCount;
+        setCardsVisibility(playerCount);
+        addLabelsToList();
+        setCardNumbers(playerCount);
+    }
 
+    protected void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
+
+    private void setCardsVisibility(int playerCount) { //Set the cards according to player count
         if (playerCount == 1) {
             Player2CardJPanel.setVisible(false);
             this.remove(Player2CardJPanel);
@@ -24,6 +53,12 @@ public class GameFrame extends javax.swing.JFrame {
             this.remove(Player3CardJPanel);
             Player4CardJPanel.setVisible(false);
             this.remove(Player4CardJPanel);
+            player2StatusLabel.setVisible(false);
+            Player2BingoLabel.setVisible(false);
+            player3StatusLabel.setVisible(false);
+            Player3BingoLabel.setVisible(false);
+            player4StatusLabel.setVisible(false);
+            Player4BingoLabel.setVisible(false);
             this.revalidate();
             this.repaint();
         } else if (playerCount == 2) {
@@ -31,22 +66,320 @@ public class GameFrame extends javax.swing.JFrame {
             this.remove(Player3CardJPanel);
             Player4CardJPanel.setVisible(false);
             this.remove(Player4CardJPanel);
+            player3StatusLabel.setVisible(false);
+            Player3BingoLabel.setVisible(false);
+            player4StatusLabel.setVisible(false);
+            Player4BingoLabel.setVisible(false);
             this.revalidate();
             this.repaint();
+
         } else if (playerCount == 3) {
             this.remove(Player4CardJPanel);
             Player4CardJPanel.setVisible(false);
             this.revalidate();
             this.repaint();
+            player4StatusLabel.setVisible(false);
+            Player4BingoLabel.setVisible(false);
+        } //Otherwise all components will be visible
+    }
+
+    private void addLabelsToList() {
+
+        //Add all JLabels on Player 1's card to a BingoLinkedList 
+        card1Circles = new BingoLinkedList<>();
+        Component[] card1Components = Player1CardJPanel.getComponents();
+        for (Component component : card1Components) {
+            if (component instanceof CustomJLabel && component != player1Label) {
+                card1Circles.addToEnd((CustomJLabel) component);
+            }
+        }
+
+        //Add all JLabels on Player 2's card to a BingoLinkedList 
+        card2Circles = new BingoLinkedList<>();
+        Component[] card2Components = Player2CardJPanel.getComponents();
+        for (Component component : card2Components) {
+            if (component instanceof CustomJLabel && component != player2Label) {
+                card2Circles.addToEnd((CustomJLabel) component);
+            }
+        }
+
+        //Add all JLabels on Player 3's card to a BingoLinkedList 
+        card3Circles = new BingoLinkedList<>();
+        Component[] card3Components = Player3CardJPanel.getComponents();
+        for (Component component : card3Components) {
+            if (component instanceof CustomJLabel && component != player3Label) {
+                card3Circles.addToEnd((CustomJLabel) component);
+            }
+        }
+        //Add all JLabels on Player 4's card to a BingoLinkedList 
+        card4Circles = new BingoLinkedList<>();
+        Component[] card4Components = Player4CardJPanel.getComponents();
+        for (Component component : card4Components) {
+            if (component instanceof CustomJLabel && component != player4Label) {
+                card4Circles.addToEnd((CustomJLabel) component);
+            }
         }
     }
 
-    public void setPlayerCount(int playerCount) {
-        this.playerCount = playerCount;
+    private void setCardNumbers(int playerCount) {
+        int numberIndex = 0;
+        int number = 0;
+        int numberColumnIndex = 0;
+        switch (playerCount) {
+            case 1:
+                //Assign random number to cardNumber1
+                card1Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 1
+                numberIndex = 0;
+                number = card1Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card1Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card1Numbers.get(numberIndex++);
+                        card1Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                break;
+            case 2:
+                //Assign random number to cardNumber1
+                card1Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 1
+                numberIndex = 0;
+                number = card1Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card1Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card1Numbers.get(numberIndex++);
+                        card1Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                //Assign random number to cardNumber2
+                card2Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 2
+                numberIndex = 0;
+                number = card2Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card2Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card2Numbers.get(numberIndex++);
+                        card2Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                break;
+            case 3:
+                //Assign random number to cardNumber1
+                card1Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 1
+                numberIndex = 0;
+                number = card1Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card1Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card1Numbers.get(numberIndex++);
+                        card1Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                //Assign random number to cardNumber2
+                card2Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 2
+                numberIndex = 0;
+                number = card2Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card2Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card2Numbers.get(numberIndex++);
+                        card2Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                //Assign random number to cardNumber3
+                card3Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 3
+                numberIndex = 0;
+                number = card3Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card3Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card3Numbers.get(numberIndex++);
+                        card3Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                break;
+            case 4:
+                //Assign random number to cardNumber1
+                card1Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 1
+                numberIndex = 0;
+                number = card1Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card1Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card1Numbers.get(numberIndex++);
+                        card1Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                //Assign random number to cardNumber2
+                card2Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 2
+                numberIndex = 0;
+                number = card2Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card2Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card2Numbers.get(numberIndex++);
+                        card2Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                //Assign random number to cardNumber3
+                card3Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 3
+                numberIndex = 0;
+                number = card3Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card3Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card3Numbers.get(numberIndex++);
+                        card3Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                //Assign random number to cardNumber4
+                card4Numbers = bingoGameController.randomCardNumberGenerator();
+                //Add random and sequential(according to tombala card1)numbers to the bingo card 4
+                numberIndex = 0;
+                number = 0;
+                numberColumnIndex = 0;
+                number = card4Numbers.get(numberIndex);
+                numberColumnIndex = number / 10;
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        card4Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        number = card4Numbers.get(numberIndex++);
+                        card4Numbers.get(numberIndex);
+                        numberColumnIndex = number / 10;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
     }
 
-    public int getPlayerCount() {
-        return playerCount;
+    private void checkNumbers(int playerCount) {
+        int number = Integer.parseInt(numberLabel.getText());
+        if (playerCount == 1) {
+            for (int i = 0; i < card1Circles.size; i++) {
+                String text = card1Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card1Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+        } else if (playerCount == 2) {
+            for (int i = 0; i < card1Circles.size; i++) {
+                String text = card1Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card1Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+            for (int i = 0; i < card2Circles.size; i++) {
+                String text = card2Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card2Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+        } else if (playerCount == 3) {
+            for (int i = 0; i < card1Circles.size; i++) {
+                String text = card1Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card1Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+            for (int i = 0; i < card2Circles.size; i++) {
+                String text = card2Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card2Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+            for (int i = 0; i < card3Circles.size; i++) {
+                String text = card3Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card3Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+
+        } else if (playerCount == 4) {
+            for (int i = 0; i < card1Circles.size; i++) {
+                String text = card1Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card1Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+            for (int i = 0; i < card2Circles.size; i++) {
+                String text = card2Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card2Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+            for (int i = 0; i < card3Circles.size; i++) {
+                String text = card3Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card3Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+            for (int i = 0; i < card4Circles.size; i++) {
+                String text = card4Circles.get(i).getText().trim();
+                if (!text.isEmpty()) {
+                    int parsedNumber = Integer.parseInt(text);
+                    if (parsedNumber == number) {
+                        card4Circles.get(i).setColor(new Color(255, 153, 153));
+                    }
+                }
+            }
+
+        }
     }
 
     /**
@@ -89,7 +422,7 @@ public class GameFrame extends javax.swing.JFrame {
         Card1Circle25 = new Custom_GUI_Components.CustomJLabel();
         Card1Circle26 = new Custom_GUI_Components.CustomJLabel();
         Card1Circle27 = new Custom_GUI_Components.CustomJLabel();
-        jLabel1 = new javax.swing.JLabel();
+        player1Label = new javax.swing.JLabel();
         Player3CardJPanel = new javax.swing.JPanel();
         Card3Circle1 = new Custom_GUI_Components.CustomJLabel();
         Card3Circle2 = new Custom_GUI_Components.CustomJLabel();
@@ -118,7 +451,7 @@ public class GameFrame extends javax.swing.JFrame {
         Card3Circle25 = new Custom_GUI_Components.CustomJLabel();
         Card3Circle26 = new Custom_GUI_Components.CustomJLabel();
         Card3Circle27 = new Custom_GUI_Components.CustomJLabel();
-        jLabel2 = new javax.swing.JLabel();
+        player3Label = new javax.swing.JLabel();
         Player4CardJPanel = new javax.swing.JPanel();
         Card4Circle1 = new Custom_GUI_Components.CustomJLabel();
         Card4Circle2 = new Custom_GUI_Components.CustomJLabel();
@@ -147,9 +480,9 @@ public class GameFrame extends javax.swing.JFrame {
         Card4Circle25 = new Custom_GUI_Components.CustomJLabel();
         Card4Circle26 = new Custom_GUI_Components.CustomJLabel();
         Card4Circle27 = new Custom_GUI_Components.CustomJLabel();
-        jLabel3 = new javax.swing.JLabel();
+        player4Label = new javax.swing.JLabel();
         Player2CardJPanel = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        player2Label = new javax.swing.JLabel();
         Card2Circle1 = new Custom_GUI_Components.CustomJLabel();
         Card2Circle2 = new Custom_GUI_Components.CustomJLabel();
         Card2Circle3 = new Custom_GUI_Components.CustomJLabel();
@@ -178,10 +511,18 @@ public class GameFrame extends javax.swing.JFrame {
         Card2Circle26 = new Custom_GUI_Components.CustomJLabel();
         Card2Circle27 = new Custom_GUI_Components.CustomJLabel();
         ImageJPanel = new javax.swing.JPanel();
+        numberLabel = new Custom_GUI_Components.CustomJLabel();
         imageLabel = new javax.swing.JLabel();
-        numberLabel = new javax.swing.JLabel();
-        numberIsLabel = new javax.swing.JLabel();
-        customJButton1 = new Custom_GUI_Components.CustomJButton();
+        newNumberButton = new Custom_GUI_Components.CustomJButton();
+        jPanel1 = new javax.swing.JPanel();
+        Player4BingoLabel = new javax.swing.JLabel();
+        player2StatusLabel = new javax.swing.JLabel();
+        Player1BingoLabel = new javax.swing.JLabel();
+        player4StatusLabel = new javax.swing.JLabel();
+        player1StatusLabel = new javax.swing.JLabel();
+        player3StatusLabel = new javax.swing.JLabel();
+        Player2BingoLabel = new javax.swing.JLabel();
+        Player3BingoLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -423,11 +764,11 @@ public class GameFrame extends javax.swing.JFrame {
         Card1Circle27.setRadius(560);
         Player1CardJPanel.add(Card1Circle27, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 40, 40));
 
-        jLabel1.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("PLAYER 1");
-        Player1CardJPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 30));
+        player1Label.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        player1Label.setForeground(new java.awt.Color(0, 0, 0));
+        player1Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player1Label.setText("PLAYER 1");
+        Player1CardJPanel.add(player1Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 30));
 
         MainJPanel.add(Player1CardJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 440, 180));
 
@@ -651,11 +992,11 @@ public class GameFrame extends javax.swing.JFrame {
         Card3Circle27.setRadius(560);
         Player3CardJPanel.add(Card3Circle27, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 40, 40));
 
-        jLabel2.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("PLAYER 3");
-        Player3CardJPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 30));
+        player3Label.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        player3Label.setForeground(new java.awt.Color(0, 0, 0));
+        player3Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player3Label.setText("PLAYER 3");
+        Player3CardJPanel.add(player3Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 30));
 
         MainJPanel.add(Player3CardJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 440, 180));
 
@@ -879,11 +1220,11 @@ public class GameFrame extends javax.swing.JFrame {
         Card4Circle27.setRadius(560);
         Player4CardJPanel.add(Card4Circle27, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 40, 40));
 
-        jLabel3.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("PLAYER 4");
-        Player4CardJPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 30));
+        player4Label.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        player4Label.setForeground(new java.awt.Color(0, 0, 0));
+        player4Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player4Label.setText("PLAYER 4");
+        Player4CardJPanel.add(player4Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 30));
 
         MainJPanel.add(Player4CardJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 440, 180));
 
@@ -891,11 +1232,11 @@ public class GameFrame extends javax.swing.JFrame {
         Player2CardJPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         Player2CardJPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("PLAYER 2");
-        Player2CardJPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 30));
+        player2Label.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        player2Label.setForeground(new java.awt.Color(0, 0, 0));
+        player2Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        player2Label.setText("PLAYER 2");
+        Player2CardJPanel.add(player2Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 30));
 
         Card2Circle1.setForeground(new java.awt.Color(0, 0, 0));
         Card2Circle1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1117,44 +1458,98 @@ public class GameFrame extends javax.swing.JFrame {
 
         ImageJPanel.setBackground(new java.awt.Color(95, 158, 160));
         ImageJPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ImageJPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout ImageJPanelLayout = new javax.swing.GroupLayout(ImageJPanel);
-        ImageJPanel.setLayout(ImageJPanelLayout);
-        ImageJPanelLayout.setHorizontalGroup(
-            ImageJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-        );
-        ImageJPanelLayout.setVerticalGroup(
-            ImageJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-        );
+        numberLabel.setForeground(new java.awt.Color(0, 0, 0));
+        numberLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        numberLabel.setText("12");
+        numberLabel.setBorderColor(new java.awt.Color(255, 255, 255));
+        numberLabel.setColor(new java.awt.Color(95, 158, 160));
+        numberLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        numberLabel.setRadius(560);
+        ImageJPanel.add(numberLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 35, 32));
+        ImageJPanel.add(imageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 196, 156));
+
+        newNumberButton.setBackground(new java.awt.Color(95, 158, 160));
+        newNumberButton.setForeground(new java.awt.Color(0, 0, 0));
+        newNumberButton.setText("Click for new number");
+        newNumberButton.setBorderColor(new java.awt.Color(255, 255, 255));
+        newNumberButton.setColorClick(new java.awt.Color(95, 158, 160));
+        newNumberButton.setColorOver(new java.awt.Color(95, 158, 160));
+        newNumberButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        newNumberButton.setRadius(40);
+        newNumberButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newNumberButtonActionPerformed(evt);
+            }
+        });
+        ImageJPanel.add(newNumberButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 130, 150, 40));
 
         MainJPanel.add(ImageJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 160, 200, 180));
 
-        numberLabel.setFont(new java.awt.Font("Stencil", 1, 14)); // NOI18N
-        numberLabel.setForeground(new java.awt.Color(0, 0, 0));
-        numberLabel.setText("11");
-        MainJPanel.add(numberLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 340, 20, 30));
+        jPanel1.setBackground(new java.awt.Color(95, 158, 160));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        numberIsLabel.setFont(new java.awt.Font("Stencil", 1, 14)); // NOI18N
-        numberIsLabel.setForeground(new java.awt.Color(0, 0, 0));
-        numberIsLabel.setText("Number is :");
-        MainJPanel.add(numberIsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 340, 90, 30));
+        Player4BingoLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        Player4BingoLabel.setForeground(new java.awt.Color(0, 0, 0));
+        Player4BingoLabel.setText("No Bingo");
+        jPanel1.add(Player4BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
 
-        customJButton1.setBackground(new java.awt.Color(95, 158, 160));
-        customJButton1.setForeground(new java.awt.Color(0, 0, 0));
-        customJButton1.setText("Click for new number");
-        customJButton1.setBorderColor(new java.awt.Color(255, 255, 255));
-        customJButton1.setColorClick(new java.awt.Color(95, 158, 160));
-        customJButton1.setColorOver(new java.awt.Color(95, 158, 160));
-        customJButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        customJButton1.setRadius(40);
-        MainJPanel.add(customJButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 370, 150, 40));
+        player2StatusLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        player2StatusLabel.setForeground(new java.awt.Color(0, 0, 0));
+        player2StatusLabel.setText("PLAYER 2 STATUS : ");
+        jPanel1.add(player2StatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+
+        Player1BingoLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        Player1BingoLabel.setForeground(new java.awt.Color(0, 0, 0));
+        Player1BingoLabel.setText("No Bingo");
+        jPanel1.add(Player1BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, -1, -1));
+
+        player4StatusLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        player4StatusLabel.setForeground(new java.awt.Color(0, 0, 0));
+        player4StatusLabel.setText("PLAYER 4 STATUS : ");
+        jPanel1.add(player4StatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+
+        player1StatusLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        player1StatusLabel.setForeground(new java.awt.Color(0, 0, 0));
+        player1StatusLabel.setText("PLAYER 1 STATUS : ");
+        jPanel1.add(player1StatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        player3StatusLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        player3StatusLabel.setForeground(new java.awt.Color(0, 0, 0));
+        player3StatusLabel.setText("PLAYER 3 STATUS : ");
+        jPanel1.add(player3StatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
+
+        Player2BingoLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        Player2BingoLabel.setForeground(new java.awt.Color(0, 0, 0));
+        Player2BingoLabel.setText("No Bingo");
+        jPanel1.add(Player2BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, -1, -1));
+
+        Player3BingoLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        Player3BingoLabel.setForeground(new java.awt.Color(0, 0, 0));
+        Player3BingoLabel.setText("No Bingo");
+        jPanel1.add(Player3BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
+
+        MainJPanel.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 370, 200, 180));
 
         getContentPane().add(MainJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1172, 615));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void newNumberButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newNumberButtonActionPerformed
+        if (randomNumbers.size < 90) {
+            int randomNumber;
+            do {
+                randomNumber = random.nextInt(90) + 1;
+            } while (randomNumbers.contains(randomNumber));
+
+            randomNumbers.addToEnd(randomNumber);
+            numberLabel.setText(Integer.toString(randomNumber));
+            checkNumbers(playerCount);
+        }
+    }//GEN-LAST:event_newNumberButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1304,17 +1699,25 @@ public class GameFrame extends javax.swing.JFrame {
     private javax.swing.JPanel HeaderJPanel;
     private javax.swing.JPanel ImageJPanel;
     private javax.swing.JPanel MainJPanel;
+    private javax.swing.JLabel Player1BingoLabel;
     private javax.swing.JPanel Player1CardJPanel;
+    private javax.swing.JLabel Player2BingoLabel;
     private javax.swing.JPanel Player2CardJPanel;
+    private javax.swing.JLabel Player3BingoLabel;
     private javax.swing.JPanel Player3CardJPanel;
+    private javax.swing.JLabel Player4BingoLabel;
     private javax.swing.JPanel Player4CardJPanel;
-    private Custom_GUI_Components.CustomJButton customJButton1;
     private javax.swing.JLabel imageLabel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel numberIsLabel;
-    private javax.swing.JLabel numberLabel;
+    private javax.swing.JPanel jPanel1;
+    private Custom_GUI_Components.CustomJButton newNumberButton;
+    private Custom_GUI_Components.CustomJLabel numberLabel;
+    private javax.swing.JLabel player1Label;
+    private javax.swing.JLabel player1StatusLabel;
+    private javax.swing.JLabel player2Label;
+    private javax.swing.JLabel player2StatusLabel;
+    private javax.swing.JLabel player3Label;
+    private javax.swing.JLabel player3StatusLabel;
+    private javax.swing.JLabel player4Label;
+    private javax.swing.JLabel player4StatusLabel;
     // End of variables declaration//GEN-END:variables
 }

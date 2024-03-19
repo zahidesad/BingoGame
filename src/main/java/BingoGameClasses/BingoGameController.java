@@ -43,7 +43,6 @@ public class BingoGameController {
         sortSubList(cardNumbers, 0, 4);
         sortSubList(cardNumbers, 5, 9);
         sortSubList(cardNumbers, 10, 14);
-
         return cardNumbers;
 
     }

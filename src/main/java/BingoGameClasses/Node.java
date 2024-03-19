@@ -3,6 +3,7 @@ package BingoGameClasses;
 /**
  *
  * @author zahid
+ * @param <T>
  */
 public class Node<T> {
 
