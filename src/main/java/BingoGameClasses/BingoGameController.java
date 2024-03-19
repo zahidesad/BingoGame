@@ -7,7 +7,7 @@ import java.util.Random;
  * @author zahid
  */
 public class BingoGameController {
-
+      
     public static BingoLinkedList<Integer> randomCardNumberGenerator() {
 
         BingoLinkedList<Integer> allNumbers = new BingoLinkedList<>();

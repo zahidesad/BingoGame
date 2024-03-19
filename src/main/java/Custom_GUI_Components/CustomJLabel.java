@@ -5,16 +5,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 public class CustomJLabel extends JLabel {
 
     private Color color = Color.WHITE;
     private Color borderColor = new Color(30, 136, 56);
     private int radius = 0;
+    private boolean isFound = false;
 
     public CustomJLabel() {
-       //setContentAreaFilled(false); // Remove default background
+        //setContentAreaFilled(false); // Remove default background
     }
 
     public Color getColor() {
@@ -42,6 +42,14 @@ public class CustomJLabel extends JLabel {
     public void setRadius(int radius) {
         this.radius = radius;
         repaint();
+    }
+
+    public boolean getIsFound() {
+        return isFound;
+    }
+
+    public void setIsFound(boolean isFound) {
+        this.isFound = isFound;
     }
 
     @Override

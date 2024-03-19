@@ -6,6 +6,7 @@ import java.awt.Component;
 import Custom_GUI_Components.CustomJLabel;
 import java.awt.Color;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,19 +26,19 @@ public class GameFrame extends javax.swing.JFrame {
     BingoLinkedList<Integer> card2Numbers;
     BingoLinkedList<Integer> card3Numbers;
     BingoLinkedList<Integer> card4Numbers;
-    //Define BingoLinkedList to hold JLabek on cards
-    BingoLinkedList<CustomJLabel> card1Circles = new BingoLinkedList<>();
-    BingoLinkedList<CustomJLabel> card2Circles = new BingoLinkedList<>();
-    BingoLinkedList<CustomJLabel> card3Circles = new BingoLinkedList<>();
-    BingoLinkedList<CustomJLabel> card4Circles = new BingoLinkedList<>();
+    // Define players
+    private Player player1;
+    private Player player2;
+    private Player player3;
+    private Player player4;
 
     public GameFrame(int playerCount) {
         initComponents();
         this.setSize(1172, 615);
         imageLabel.setIcon(imageBag);
         this.playerCount = playerCount;
-        setCardsVisibility(playerCount);
-        addLabelsToList();
+        setCardsVisibilityAndPlayers(playerCount);
+        addLabelsToList(playerCount);
         setCardNumbers(playerCount);
     }
 
@@ -45,7 +46,7 @@ public class GameFrame extends javax.swing.JFrame {
         this.playerCount = playerCount;
     }
 
-    private void setCardsVisibility(int playerCount) { //Set the cards according to player count
+    private void setCardsVisibilityAndPlayers(int playerCount) { //Set the cards according to player count
         if (playerCount == 1) {
             Player2CardJPanel.setVisible(false);
             this.remove(Player2CardJPanel);
@@ -61,6 +62,7 @@ public class GameFrame extends javax.swing.JFrame {
             Player4BingoLabel.setVisible(false);
             this.revalidate();
             this.repaint();
+            player1 = new Player();
         } else if (playerCount == 2) {
             Player3CardJPanel.setVisible(false);
             this.remove(Player3CardJPanel);
@@ -72,7 +74,8 @@ public class GameFrame extends javax.swing.JFrame {
             Player4BingoLabel.setVisible(false);
             this.revalidate();
             this.repaint();
-
+            player1 = new Player();
+            player2 = new Player();
         } else if (playerCount == 3) {
             this.remove(Player4CardJPanel);
             Player4CardJPanel.setVisible(false);
@@ -80,45 +83,110 @@ public class GameFrame extends javax.swing.JFrame {
             this.repaint();
             player4StatusLabel.setVisible(false);
             Player4BingoLabel.setVisible(false);
-        } //Otherwise all components will be visible
+            player1 = new Player();
+            player2 = new Player();
+            player3 = new Player();
+        } else {//Otherwise all components will be visible
+            player1 = new Player();
+            player2 = new Player();
+            player3 = new Player();
+            player4 = new Player();
+        }
+
     }
 
-    private void addLabelsToList() {
-
-        //Add all JLabels on Player 1's card to a BingoLinkedList 
-        card1Circles = new BingoLinkedList<>();
-        Component[] card1Components = Player1CardJPanel.getComponents();
-        for (Component component : card1Components) {
-            if (component instanceof CustomJLabel && component != player1Label) {
-                card1Circles.addToEnd((CustomJLabel) component);
+    private void addLabelsToList(int playerCount) {
+        switch (playerCount) {
+            case 1: {
+                //Add all JLabels on Player 1's card to a BingoLinkedList
+                player1.playerCard = new BingoLinkedList<>();
+                Component[] card1Components = Player1CardJPanel.getComponents();
+                for (Component component : card1Components) {
+                    if (component instanceof CustomJLabel && component != player1Label) {
+                        player1.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }
+                break;
             }
+            case 2: {
+                //Add all JLabels on Player 1's card to a BingoLinkedList
+                player1.playerCard = new BingoLinkedList<>();
+                Component[] card1Components = Player1CardJPanel.getComponents();
+                for (Component component : card1Components) {
+                    if (component instanceof CustomJLabel && component != player1Label) {
+                        player1.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }       //Add all JLabels on Player 2's card to a BingoLinkedList 
+                player2.playerCard = new BingoLinkedList<>();
+                Component[] card2Components = Player2CardJPanel.getComponents();
+                for (Component component : card2Components) {
+                    if (component instanceof CustomJLabel && component != player2Label) {
+                        player2.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }
+                break;
+            }
+            case 3: {
+                //Add all JLabels on Player 1's card to a BingoLinkedList
+                player1.playerCard = new BingoLinkedList<>();
+                Component[] card1Components = Player1CardJPanel.getComponents();
+                for (Component component : card1Components) {
+                    if (component instanceof CustomJLabel && component != player1Label) {
+                        player1.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }       //Add all JLabels on Player 2's card to a BingoLinkedList 
+                player2.playerCard = new BingoLinkedList<>();
+                Component[] card2Components = Player2CardJPanel.getComponents();
+                for (Component component : card2Components) {
+                    if (component instanceof CustomJLabel && component != player2Label) {
+                        player2.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }       //Add all JLabels on Player 3's card to a BingoLinkedList 
+                player3.playerCard = new BingoLinkedList<>();
+                Component[] card3Components = Player3CardJPanel.getComponents();
+                for (Component component : card3Components) {
+                    if (component instanceof CustomJLabel && component != player3Label) {
+                        player3.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }
+                break;
+            }
+            case 4: {
+                //Add all JLabels on Player 1's card to a BingoLinkedList
+                player1.playerCard = new BingoLinkedList<>();
+                Component[] card1Components = Player1CardJPanel.getComponents();
+                for (Component component : card1Components) {
+                    if (component instanceof CustomJLabel && component != player1Label) {
+                        player1.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }       //Add all JLabels on Player 2's card to a BingoLinkedList 
+                player2.playerCard = new BingoLinkedList<>();
+                Component[] card2Components = Player2CardJPanel.getComponents();
+                for (Component component : card2Components) {
+                    if (component instanceof CustomJLabel && component != player2Label) {
+                        player2.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }       //Add all JLabels on Player 3's card to a BingoLinkedList 
+                player3.playerCard = new BingoLinkedList<>();
+                Component[] card3Components = Player3CardJPanel.getComponents();
+                for (Component component : card3Components) {
+                    if (component instanceof CustomJLabel && component != player3Label) {
+                        player3.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }       //Add all JLabels on Player 4's card to a BingoLinkedList 
+                player4.playerCard = new BingoLinkedList<>();
+                Component[] card4Components = Player4CardJPanel.getComponents();
+                for (Component component : card4Components) {
+                    if (component instanceof CustomJLabel && component != player4Label) {
+                        player4.playerCard.addToEnd((CustomJLabel) component);
+                    }
+                }
+                break;
+            }
+            default:
+                break;
         }
 
-        //Add all JLabels on Player 2's card to a BingoLinkedList 
-        card2Circles = new BingoLinkedList<>();
-        Component[] card2Components = Player2CardJPanel.getComponents();
-        for (Component component : card2Components) {
-            if (component instanceof CustomJLabel && component != player2Label) {
-                card2Circles.addToEnd((CustomJLabel) component);
-            }
-        }
-
-        //Add all JLabels on Player 3's card to a BingoLinkedList 
-        card3Circles = new BingoLinkedList<>();
-        Component[] card3Components = Player3CardJPanel.getComponents();
-        for (Component component : card3Components) {
-            if (component instanceof CustomJLabel && component != player3Label) {
-                card3Circles.addToEnd((CustomJLabel) component);
-            }
-        }
-        //Add all JLabels on Player 4's card to a BingoLinkedList 
-        card4Circles = new BingoLinkedList<>();
-        Component[] card4Components = Player4CardJPanel.getComponents();
-        for (Component component : card4Components) {
-            if (component instanceof CustomJLabel && component != player4Label) {
-                card4Circles.addToEnd((CustomJLabel) component);
-            }
-        }
     }
 
     private void setCardNumbers(int playerCount) {
@@ -135,8 +203,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card1Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card1Numbers.get(numberIndex++);
+                        player1.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card1Numbers.size) {
+                            continue;
+                        }
+                        number = card1Numbers.get(numberIndex);
                         card1Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -151,8 +223,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card1Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card1Numbers.get(numberIndex++);
+                        player1.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card1Numbers.size) {
+                            continue;
+                        }
+                        number = card1Numbers.get(numberIndex);
                         card1Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -165,8 +241,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card2Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card2Numbers.get(numberIndex++);
+                        player2.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card2Numbers.size) {
+                            continue;
+                        }
+                        number = card2Numbers.get(numberIndex);
                         card2Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -181,8 +261,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card1Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card1Numbers.get(numberIndex++);
+                        player1.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card1Numbers.size) {
+                            continue;
+                        }
+                        number = card1Numbers.get(numberIndex);
                         card1Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -195,8 +279,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card2Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card2Numbers.get(numberIndex++);
+                        player2.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card2Numbers.size) {
+                            continue;
+                        }
+                        number = card2Numbers.get(numberIndex);
                         card2Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -209,8 +297,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card3Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card3Numbers.get(numberIndex++);
+                        player3.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card3Numbers.size) {
+                            continue;
+                        }
+                        number = card3Numbers.get(numberIndex);
                         card3Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -225,8 +317,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card1Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card1Numbers.get(numberIndex++);
+                        player1.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card1Numbers.size) {
+                            continue;
+                        }
+                        number = card1Numbers.get(numberIndex);
                         card1Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -239,8 +335,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card2Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card2Numbers.get(numberIndex++);
+                        player2.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card2Numbers.size) {
+                            continue;
+                        }
+                        number = card2Numbers.get(numberIndex);
                         card2Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -253,8 +353,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card3Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card3Numbers.get(numberIndex++);
+                        player3.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card3Numbers.size) {
+                            continue;
+                        }
+                        number = card3Numbers.get(numberIndex);
                         card3Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -269,8 +373,12 @@ public class GameFrame extends javax.swing.JFrame {
                 numberColumnIndex = number / 10;
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 5; j++) {
-                        card4Circles.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        number = card4Numbers.get(numberIndex++);
+                        player4.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                        numberIndex++;
+                        if (numberIndex >= card4Numbers.size) {
+                            continue;
+                        }
+                        number = card4Numbers.get(numberIndex);
                         card4Numbers.get(numberIndex);
                         numberColumnIndex = number / 10;
                     }
@@ -283,102 +391,268 @@ public class GameFrame extends javax.swing.JFrame {
 
     private void checkNumbers(int playerCount) {
         int number = Integer.parseInt(numberLabel.getText());
-        if (playerCount == 1) {
-            for (int i = 0; i < card1Circles.size; i++) {
-                String text = card1Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card1Circles.get(i).setColor(new Color(255, 153, 153));
-                    }
-                }
-            }
-        } else if (playerCount == 2) {
-            for (int i = 0; i < card1Circles.size; i++) {
-                String text = card1Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card1Circles.get(i).setColor(new Color(255, 153, 153));
-                    }
-                }
-            }
-            for (int i = 0; i < card2Circles.size; i++) {
-                String text = card2Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card2Circles.get(i).setColor(new Color(255, 153, 153));
-                    }
-                }
-            }
-        } else if (playerCount == 3) {
-            for (int i = 0; i < card1Circles.size; i++) {
-                String text = card1Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card1Circles.get(i).setColor(new Color(255, 153, 153));
-                    }
-                }
-            }
-            for (int i = 0; i < card2Circles.size; i++) {
-                String text = card2Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card2Circles.get(i).setColor(new Color(255, 153, 153));
-                    }
-                }
-            }
-            for (int i = 0; i < card3Circles.size; i++) {
-                String text = card3Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card3Circles.get(i).setColor(new Color(255, 153, 153));
-                    }
-                }
-            }
+        switch (playerCount) {
+            case 1:
+                for (int i = 0; i < player1.playerCard.size; i++) {
+                    String text = player1.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player1.playerCard.get(i).setIsFound(true);
+                            player1.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player1.checkStatus();
+                            if (player1.status == Player.STATUS.NO_BINGO) {
+                                Player1BingoLabel.setText("NO BINGO");
+                            } else if (player1.status == Player.STATUS.FIRST_BINGO) {
+                                Player1BingoLabel.setText("FİRST BINGO");
+                            } else if (player1.status == Player.STATUS.SECOND_BINGO) {
+                                Player1BingoLabel.setText("SECOND BİNGO");
+                            } else if (player1.status == Player.STATUS.BINGO) {
+                                Player1BingoLabel.setText("BINGO");
+                            }
 
-        } else if (playerCount == 4) {
-            for (int i = 0; i < card1Circles.size; i++) {
-                String text = card1Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card1Circles.get(i).setColor(new Color(255, 153, 153));
+                            if (player1.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
                     }
                 }
-            }
-            for (int i = 0; i < card2Circles.size; i++) {
-                String text = card2Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card2Circles.get(i).setColor(new Color(255, 153, 153));
+                break;
+            case 2:
+                for (int i = 0; i < player1.playerCard.size; i++) {
+                    String text = player1.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player1.playerCard.get(i).setIsFound(true);
+                            player1.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player1.checkStatus();
+                            if (player1.status == Player.STATUS.NO_BINGO) {
+                                Player1BingoLabel.setText("NO BINGO");
+                            } else if (player1.status == Player.STATUS.FIRST_BINGO) {
+                                Player1BingoLabel.setText("FİRST BINGO");
+                            } else if (player1.status == Player.STATUS.SECOND_BINGO) {
+                                Player1BingoLabel.setText("SECOND BİNGO");
+                            } else if (player1.status == Player.STATUS.BINGO) {
+                                Player1BingoLabel.setText("BINGO");
+                            }
+                            if (player1.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
                     }
                 }
-            }
-            for (int i = 0; i < card3Circles.size; i++) {
-                String text = card3Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card3Circles.get(i).setColor(new Color(255, 153, 153));
+                for (int i = 0; i < player2.playerCard.size; i++) {
+                    String text = player2.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player2.playerCard.get(i).setIsFound(true);
+                            player2.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player2.checkStatus();
+                            if (player2.status == Player.STATUS.NO_BINGO) {
+                                Player2BingoLabel.setText("NO BINGO");
+                            } else if (player2.status == Player.STATUS.FIRST_BINGO) {
+                                Player2BingoLabel.setText("FIRST BINGO");
+                            } else if (player2.status == Player.STATUS.SECOND_BINGO) {
+                                Player2BingoLabel.setText("SECOND BINGO");
+                            } else if (player2.status == Player.STATUS.BINGO) {
+                                Player2BingoLabel.setText("BINGO");
+                            }
+                            if (player2.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
                     }
                 }
-            }
-            for (int i = 0; i < card4Circles.size; i++) {
-                String text = card4Circles.get(i).getText().trim();
-                if (!text.isEmpty()) {
-                    int parsedNumber = Integer.parseInt(text);
-                    if (parsedNumber == number) {
-                        card4Circles.get(i).setColor(new Color(255, 153, 153));
+                break;
+            case 3:
+                for (int i = 0; i < player1.playerCard.size; i++) {
+                    String text = player1.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player1.playerCard.get(i).setIsFound(true);
+                            player1.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player1.checkStatus();
+                            if (player1.status == Player.STATUS.NO_BINGO) {
+                                Player1BingoLabel.setText("NO BINGO");
+                            } else if (player1.status == Player.STATUS.FIRST_BINGO) {
+                                Player1BingoLabel.setText("FİRST BINGO");
+                            } else if (player1.status == Player.STATUS.SECOND_BINGO) {
+                                Player1BingoLabel.setText("SECOND BİNGO");
+                            } else if (player1.status == Player.STATUS.BINGO) {
+                                Player1BingoLabel.setText("BINGO");
+                            }
+                            if (player1.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
                     }
                 }
-            }
-
+                for (int i = 0; i < player2.playerCard.size; i++) {
+                    String text = player2.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player2.playerCard.get(i).setIsFound(true);
+                            player2.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player2.checkStatus();
+                            if (player2.status == Player.STATUS.NO_BINGO) {
+                                Player2BingoLabel.setText("NO BINGO");
+                            } else if (player2.status == Player.STATUS.FIRST_BINGO) {
+                                Player2BingoLabel.setText("FIRST BINGO");
+                            } else if (player2.status == Player.STATUS.SECOND_BINGO) {
+                                Player2BingoLabel.setText("SECOND BINGO");
+                            } else if (player2.status == Player.STATUS.BINGO) {
+                                Player2BingoLabel.setText("BINGO");
+                            }
+                            if (player2.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < player3.playerCard.size; i++) {
+                    String text = player3.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player3.playerCard.get(i).setIsFound(true);
+                            player3.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player3.checkStatus();
+                            if (player3.status == Player.STATUS.NO_BINGO) {
+                                Player3BingoLabel.setText("NO BINGO");
+                            } else if (player3.status == Player.STATUS.FIRST_BINGO) {
+                                Player3BingoLabel.setText("FIRST BINGO");
+                            } else if (player3.status == Player.STATUS.SECOND_BINGO) {
+                                Player3BingoLabel.setText("SECOND BINGO");
+                            } else if (player3.status == Player.STATUS.BINGO) {
+                                Player3BingoLabel.setText("BINGO");
+                            }
+                            if (player3.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 3 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
+                    }
+                }
+                break;
+            case 4:
+                for (int i = 0; i < player1.playerCard.size; i++) {
+                    String text = player1.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player1.playerCard.get(i).setIsFound(true);
+                            player1.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player1.checkStatus();
+                            if (player1.status == Player.STATUS.NO_BINGO) {
+                                Player1BingoLabel.setText("NO BINGO");
+                            } else if (player1.status == Player.STATUS.FIRST_BINGO) {
+                                Player1BingoLabel.setText("FİRST BINGO");
+                            } else if (player1.status == Player.STATUS.SECOND_BINGO) {
+                                Player1BingoLabel.setText("SECOND BİNGO");
+                            } else if (player1.status == Player.STATUS.BINGO) {
+                                Player1BingoLabel.setText("BINGO");
+                            }
+                            if (player1.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < player2.playerCard.size; i++) {
+                    String text = player2.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player2.playerCard.get(i).setIsFound(true);
+                            player2.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player2.checkStatus();
+                            if (player2.status == Player.STATUS.NO_BINGO) {
+                                Player2BingoLabel.setText("NO BINGO");
+                            } else if (player2.status == Player.STATUS.FIRST_BINGO) {
+                                Player2BingoLabel.setText("FIRST BINGO");
+                            } else if (player2.status == Player.STATUS.SECOND_BINGO) {
+                                Player2BingoLabel.setText("SECOND BINGO");
+                            } else if (player2.status == Player.STATUS.BINGO) {
+                                Player2BingoLabel.setText("BINGO");
+                            }
+                            if (player2.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < player3.playerCard.size; i++) {
+                    String text = player3.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player3.playerCard.get(i).setIsFound(true);
+                            player3.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player3.checkStatus();
+                            if (player3.status == Player.STATUS.NO_BINGO) {
+                                Player3BingoLabel.setText("NO BINGO");
+                            } else if (player3.status == Player.STATUS.FIRST_BINGO) {
+                                Player3BingoLabel.setText("FIRST BINGO");
+                            } else if (player3.status == Player.STATUS.SECOND_BINGO) {
+                                Player3BingoLabel.setText("SECOND BINGO");
+                            } else if (player3.status == Player.STATUS.BINGO) {
+                                Player3BingoLabel.setText("BINGO");
+                            }
+                            if (player3.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 3 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < player4.playerCard.size; i++) {
+                    String text = player4.playerCard.get(i).getText().trim();
+                    if (!text.isEmpty()) {
+                        int parsedNumber = Integer.parseInt(text);
+                        if (parsedNumber == number) {
+                            player4.playerCard.get(i).setIsFound(true);
+                            player4.playerCard.get(i).setColor(new Color(255, 153, 153));
+                            player4.checkStatus();
+                            if (player4.status == Player.STATUS.NO_BINGO) {
+                                Player4BingoLabel.setText("NO BINGO");
+                            } else if (player4.status == Player.STATUS.FIRST_BINGO) {
+                                Player4BingoLabel.setText("FIRST BINGO");
+                            } else if (player4.status == Player.STATUS.SECOND_BINGO) {
+                                Player4BingoLabel.setText("SECOND BINGO");
+                            } else if (player4.status == Player.STATUS.BINGO) {
+                                Player4BingoLabel.setText("BINGO");
+                            }
+                            if (player4.isOver()) {
+                                JOptionPane.showMessageDialog(this, "PLAYER 4 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+                                this.dispose();
+                                this.setVisible(false);
+                            }
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -1462,7 +1736,6 @@ public class GameFrame extends javax.swing.JFrame {
 
         numberLabel.setForeground(new java.awt.Color(0, 0, 0));
         numberLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        numberLabel.setText("12");
         numberLabel.setBorderColor(new java.awt.Color(255, 255, 255));
         numberLabel.setColor(new java.awt.Color(95, 158, 160));
         numberLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -1494,42 +1767,42 @@ public class GameFrame extends javax.swing.JFrame {
         Player4BingoLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         Player4BingoLabel.setForeground(new java.awt.Color(0, 0, 0));
         Player4BingoLabel.setText("No Bingo");
-        jPanel1.add(Player4BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
+        jPanel1.add(Player4BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, -1, -1));
 
         player2StatusLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         player2StatusLabel.setForeground(new java.awt.Color(0, 0, 0));
-        player2StatusLabel.setText("PLAYER 2 STATUS : ");
+        player2StatusLabel.setText("PLAYER 2: ");
         jPanel1.add(player2StatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         Player1BingoLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         Player1BingoLabel.setForeground(new java.awt.Color(0, 0, 0));
         Player1BingoLabel.setText("No Bingo");
-        jPanel1.add(Player1BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, -1, -1));
+        jPanel1.add(Player1BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, -1));
 
         player4StatusLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         player4StatusLabel.setForeground(new java.awt.Color(0, 0, 0));
-        player4StatusLabel.setText("PLAYER 4 STATUS : ");
+        player4StatusLabel.setText("PLAYER 4: ");
         jPanel1.add(player4StatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         player1StatusLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         player1StatusLabel.setForeground(new java.awt.Color(0, 0, 0));
-        player1StatusLabel.setText("PLAYER 1 STATUS : ");
+        player1StatusLabel.setText("PLAYER 1: ");
         jPanel1.add(player1StatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
         player3StatusLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         player3StatusLabel.setForeground(new java.awt.Color(0, 0, 0));
-        player3StatusLabel.setText("PLAYER 3 STATUS : ");
+        player3StatusLabel.setText("PLAYER 3: ");
         jPanel1.add(player3StatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
         Player2BingoLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         Player2BingoLabel.setForeground(new java.awt.Color(0, 0, 0));
         Player2BingoLabel.setText("No Bingo");
-        jPanel1.add(Player2BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, -1, -1));
+        jPanel1.add(Player2BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, -1, -1));
 
         Player3BingoLabel.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         Player3BingoLabel.setForeground(new java.awt.Color(0, 0, 0));
         Player3BingoLabel.setText("No Bingo");
-        jPanel1.add(Player3BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
+        jPanel1.add(Player3BingoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, -1, -1));
 
         MainJPanel.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 370, 200, 180));
 
@@ -1548,6 +1821,7 @@ public class GameFrame extends javax.swing.JFrame {
             randomNumbers.addToEnd(randomNumber);
             numberLabel.setText(Integer.toString(randomNumber));
             checkNumbers(playerCount);
+
         }
     }//GEN-LAST:event_newNumberButtonActionPerformed
 
