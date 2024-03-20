@@ -415,6 +415,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -442,6 +443,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -467,6 +469,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -494,6 +497,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -519,6 +523,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -544,6 +549,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 3 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -571,6 +577,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -596,6 +603,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -621,6 +629,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 3 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
@@ -646,6 +655,7 @@ public class GameFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "PLAYER 4 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
                                 this.dispose();
                                 this.setVisible(false);
+                                return;
                             }
                         }
                     }
