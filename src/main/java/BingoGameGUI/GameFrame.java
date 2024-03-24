@@ -4,9 +4,9 @@ import javax.swing.ImageIcon;
 import BingoGameClasses.*;
 import java.awt.Component;
 import Custom_GUI_Components.CustomJLabel;
-import java.awt.Color;
 import java.util.Random;
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -14,655 +14,128 @@ import javax.swing.JOptionPane;
  */
 public class GameFrame extends javax.swing.JFrame {
 
+    private Game game;
     private int playerCount;
-    BingoGameController bingoGameController = new BingoGameController();
-    ImageIcon imageBag = new ImageIcon("bag-image.png");
-    Random random = new Random();
-    // Generate a BingoLinkedList for selecting a random number
-    BingoLinkedList<Integer> randomNumbers = randomNumbers = new BingoLinkedList<>();
 
-    //Define a BingoLinkedList for card mumbers
-    BingoLinkedList<Integer> card1Numbers;
-    BingoLinkedList<Integer> card2Numbers;
-    BingoLinkedList<Integer> card3Numbers;
-    BingoLinkedList<Integer> card4Numbers;
-    // Define players
-    private Player player1;
-    private Player player2;
-    private Player player3;
-    private Player player4;
+    ImageIcon imageBag = new ImageIcon("bag-image.png");
+    // Generate a BingoLinkedList for selecting a random number
+    BingoLinkedList<Integer> randomNumbers = new BingoLinkedList<>();
 
     public GameFrame(int playerCount) {
         initComponents();
         this.setSize(1172, 615);
         imageLabel.setIcon(imageBag);
         this.playerCount = playerCount;
-        setCardsVisibilityAndPlayers(playerCount);
+        this.game = new Game(playerCount);
+        setCardsVisibility(playerCount);
         addLabelsToList(playerCount);
         setCardNumbers(playerCount);
+    }
+
+    // To get player information
+    public Player getPlayer(int index) {
+        return game.getPlayer(index);
     }
 
     protected void setPlayerCount(int playerCount) {
         this.playerCount = playerCount;
     }
 
-    private void setCardsVisibilityAndPlayers(int playerCount) { //Set the cards according to player count
-        if (playerCount == 1) {
-            Player2CardJPanel.setVisible(false);
-            this.remove(Player2CardJPanel);
-            Player3CardJPanel.setVisible(false);
-            this.remove(Player3CardJPanel);
-            Player4CardJPanel.setVisible(false);
-            this.remove(Player4CardJPanel);
-            player2StatusLabel.setVisible(false);
-            Player2BingoLabel.setVisible(false);
-            player3StatusLabel.setVisible(false);
-            Player3BingoLabel.setVisible(false);
-            player4StatusLabel.setVisible(false);
-            Player4BingoLabel.setVisible(false);
-            this.revalidate();
-            this.repaint();
-            player1 = new Player();
-        } else if (playerCount == 2) {
-            Player3CardJPanel.setVisible(false);
-            this.remove(Player3CardJPanel);
-            Player4CardJPanel.setVisible(false);
-            this.remove(Player4CardJPanel);
-            player3StatusLabel.setVisible(false);
-            Player3BingoLabel.setVisible(false);
-            player4StatusLabel.setVisible(false);
-            Player4BingoLabel.setVisible(false);
-            this.revalidate();
-            this.repaint();
-            player1 = new Player();
-            player2 = new Player();
-        } else if (playerCount == 3) {
-            this.remove(Player4CardJPanel);
-            Player4CardJPanel.setVisible(false);
-            this.revalidate();
-            this.repaint();
-            player4StatusLabel.setVisible(false);
-            Player4BingoLabel.setVisible(false);
-            player1 = new Player();
-            player2 = new Player();
-            player3 = new Player();
-        } else {//Otherwise all components will be visible
-            player1 = new Player();
-            player2 = new Player();
-            player3 = new Player();
-            player4 = new Player();
-        }
+    private void setCardsVisibility(int playerCount) {
+        // Set the cards according to player count
+        JLabel[] statusLabels = {player2StatusLabel, player3StatusLabel, player4StatusLabel};
+        JLabel[] bingoLabels = {Player2BingoLabel, Player3BingoLabel, Player4BingoLabel};
+        JPanel[] cardPanels = {Player2CardJPanel, Player3CardJPanel, Player4CardJPanel};
 
+        for (int i = playerCount; i < 4; i++) {
+            cardPanels[i - 1].setVisible(false);
+            this.remove(cardPanels[i - 1]);
+            statusLabels[i - 1].setVisible(false);
+            bingoLabels[i - 1].setVisible(false);
+        }
+        this.revalidate();
+        this.repaint();
     }
 
     private void addLabelsToList(int playerCount) {
-        switch (playerCount) {
-            case 1: {
-                //Add all JLabels on Player 1's card to a BingoLinkedList
-                player1.playerCard = new BingoLinkedList<>();
-                Component[] card1Components = Player1CardJPanel.getComponents();
-                for (Component component : card1Components) {
-                    if (component instanceof CustomJLabel && component != player1Label) {
-                        player1.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }
-                break;
-            }
-            case 2: {
-                //Add all JLabels on Player 1's card to a BingoLinkedList
-                player1.playerCard = new BingoLinkedList<>();
-                Component[] card1Components = Player1CardJPanel.getComponents();
-                for (Component component : card1Components) {
-                    if (component instanceof CustomJLabel && component != player1Label) {
-                        player1.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }       //Add all JLabels on Player 2's card to a BingoLinkedList 
-                player2.playerCard = new BingoLinkedList<>();
-                Component[] card2Components = Player2CardJPanel.getComponents();
-                for (Component component : card2Components) {
-                    if (component instanceof CustomJLabel && component != player2Label) {
-                        player2.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }
-                break;
-            }
-            case 3: {
-                //Add all JLabels on Player 1's card to a BingoLinkedList
-                player1.playerCard = new BingoLinkedList<>();
-                Component[] card1Components = Player1CardJPanel.getComponents();
-                for (Component component : card1Components) {
-                    if (component instanceof CustomJLabel && component != player1Label) {
-                        player1.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }       //Add all JLabels on Player 2's card to a BingoLinkedList 
-                player2.playerCard = new BingoLinkedList<>();
-                Component[] card2Components = Player2CardJPanel.getComponents();
-                for (Component component : card2Components) {
-                    if (component instanceof CustomJLabel && component != player2Label) {
-                        player2.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }       //Add all JLabels on Player 3's card to a BingoLinkedList 
-                player3.playerCard = new BingoLinkedList<>();
-                Component[] card3Components = Player3CardJPanel.getComponents();
-                for (Component component : card3Components) {
-                    if (component instanceof CustomJLabel && component != player3Label) {
-                        player3.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }
-                break;
-            }
-            case 4: {
-                //Add all JLabels on Player 1's card to a BingoLinkedList
-                player1.playerCard = new BingoLinkedList<>();
-                Component[] card1Components = Player1CardJPanel.getComponents();
-                for (Component component : card1Components) {
-                    if (component instanceof CustomJLabel && component != player1Label) {
-                        player1.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }       //Add all JLabels on Player 2's card to a BingoLinkedList 
-                player2.playerCard = new BingoLinkedList<>();
-                Component[] card2Components = Player2CardJPanel.getComponents();
-                for (Component component : card2Components) {
-                    if (component instanceof CustomJLabel && component != player2Label) {
-                        player2.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }       //Add all JLabels on Player 3's card to a BingoLinkedList 
-                player3.playerCard = new BingoLinkedList<>();
-                Component[] card3Components = Player3CardJPanel.getComponents();
-                for (Component component : card3Components) {
-                    if (component instanceof CustomJLabel && component != player3Label) {
-                        player3.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }       //Add all JLabels on Player 4's card to a BingoLinkedList 
-                player4.playerCard = new BingoLinkedList<>();
-                Component[] card4Components = Player4CardJPanel.getComponents();
-                for (Component component : card4Components) {
-                    if (component instanceof CustomJLabel && component != player4Label) {
-                        player4.playerCard.addToEnd((CustomJLabel) component);
-                    }
-                }
-                break;
-            }
-            default:
-                break;
-        }
+        JPanel[] cardPanels = {Player1CardJPanel, Player2CardJPanel, Player3CardJPanel, Player4CardJPanel};
+        JLabel[] playerLabels = {player1Label, player2Label, player3Label, player4Label};
 
+        for (int i = 0; i < playerCount; i++) {
+            int index = 0;
+            getPlayer(i).playerCard = new BingoLinkedList<>();
+            Component[] cardComponents = cardPanels[i].getComponents();
+            for (Component component : cardComponents) {
+                if (component instanceof CustomJLabel && component != playerLabels[i]) {
+                    getPlayer(i).playerCard.addByIndex(index, (CustomJLabel) component);
+                    index++;
+                }
+            }
+        }
     }
 
     private void setCardNumbers(int playerCount) {
-        int numberIndex = 0;
-        int number = 0;
-        int numberColumnIndex = 0;
-        switch (playerCount) {
-            case 1:
-                //Assign random number to cardNumber1
-                card1Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 1
-                numberIndex = 0;
-                number = card1Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player1.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card1Numbers.size) {
-                            continue;
-                        }
-                        number = card1Numbers.get(numberIndex);
-                        card1Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                break;
-            case 2:
-                //Assign random number to cardNumber1
-                card1Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 1
-                numberIndex = 0;
-                number = card1Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player1.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card1Numbers.size) {
-                            continue;
-                        }
-                        number = card1Numbers.get(numberIndex);
-                        card1Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                //Assign random number to cardNumber2
-                card2Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 2
-                numberIndex = 0;
-                number = card2Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player2.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card2Numbers.size) {
-                            continue;
-                        }
-                        number = card2Numbers.get(numberIndex);
-                        card2Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                break;
-            case 3:
-                //Assign random number to cardNumber1
-                card1Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 1
-                numberIndex = 0;
-                number = card1Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player1.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card1Numbers.size) {
-                            continue;
-                        }
-                        number = card1Numbers.get(numberIndex);
-                        card1Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                //Assign random number to cardNumber2
-                card2Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 2
-                numberIndex = 0;
-                number = card2Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player2.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card2Numbers.size) {
-                            continue;
-                        }
-                        number = card2Numbers.get(numberIndex);
-                        card2Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                //Assign random number to cardNumber3
-                card3Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 3
-                numberIndex = 0;
-                number = card3Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player3.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card3Numbers.size) {
-                            continue;
-                        }
-                        number = card3Numbers.get(numberIndex);
-                        card3Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                break;
-            case 4:
-                //Assign random number to cardNumber1
-                card1Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 1
-                numberIndex = 0;
-                number = card1Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player1.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card1Numbers.size) {
-                            continue;
-                        }
-                        number = card1Numbers.get(numberIndex);
-                        card1Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                //Assign random number to cardNumber2
-                card2Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 2
-                numberIndex = 0;
-                number = card2Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player2.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card2Numbers.size) {
-                            continue;
-                        }
-                        number = card2Numbers.get(numberIndex);
-                        card2Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                //Assign random number to cardNumber3
-                card3Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 3
-                numberIndex = 0;
-                number = card3Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player3.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card3Numbers.size) {
-                            continue;
-                        }
-                        number = card3Numbers.get(numberIndex);
-                        card3Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                //Assign random number to cardNumber4
-                card4Numbers = bingoGameController.randomCardNumberGenerator();
-                //Add random and sequential(according to tombala card1)numbers to the bingo card 4
-                numberIndex = 0;
-                number = 0;
-                numberColumnIndex = 0;
-                number = card4Numbers.get(numberIndex);
-                numberColumnIndex = number / 10;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        player4.playerCard.get((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
-                        numberIndex++;
-                        if (numberIndex >= card4Numbers.size) {
-                            continue;
-                        }
-                        number = card4Numbers.get(numberIndex);
-                        card4Numbers.get(numberIndex);
-                        numberColumnIndex = number / 10;
-                    }
-                }
-                break;
-            default:
-                break;
+        BingoLinkedList<Integer> cardNumbers;
+        Player player;
+        for (int p = 0; p < playerCount; p++) {
+            cardNumbers = getCardNumbers(p);
+            player = getPlayer(p);
+            if (cardNumbers != null && player != null) {
+                setPlayerCardNumbers(player, cardNumbers);
+            }
         }
     }
 
-    private void checkNumbers(int playerCount) {
-        int number = Integer.parseInt(numberLabel.getText());
-        switch (playerCount) {
-            case 1:
-                for (int i = 0; i < player1.playerCard.size; i++) {
-                    String text = player1.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player1.playerCard.get(i).setIsFound(true);
-                            player1.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player1.checkStatus();
-                            if (player1.status == Player.STATUS.NO_BINGO) {
-                                Player1BingoLabel.setText("NO BINGO");
-                            } else if (player1.status == Player.STATUS.FIRST_BINGO) {
-                                Player1BingoLabel.setText("FİRST BINGO");
-                            } else if (player1.status == Player.STATUS.SECOND_BINGO) {
-                                Player1BingoLabel.setText("SECOND BİNGO");
-                            } else if (player1.status == Player.STATUS.BINGO) {
-                                Player1BingoLabel.setText("BINGO");
-                            }
+    private BingoLinkedList<Integer> getCardNumbers(int playerIndex) {
+        if (playerIndex < 0 || playerIndex >= Game.MAX_PLAYERS) {
+            return null;
+        }
 
-                            if (player1.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
+        BingoLinkedList<Integer> cardNumbers = new BingoLinkedList<>();
+        cardNumbers = BingoCardNumber.cardNumberGenerator();
+
+        return cardNumbers;
+    }
+
+    private void setPlayerCardNumbers(Player player, BingoLinkedList<Integer> cardNumbers) {
+        int numberIndex = 0;
+        int number = cardNumbers.get(numberIndex);
+        int numberColumnIndex = number / 10;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 5; j++) {
+                player.playerCard.getWithDownNode((i * 9) + (number != 90 ? numberColumnIndex : numberColumnIndex - 1)).setText(Integer.toString(number));
+                numberIndex++;
+                if (numberIndex >= cardNumbers.size()) {
+                    continue;
                 }
-                break;
-            case 2:
-                for (int i = 0; i < player1.playerCard.size; i++) {
-                    String text = player1.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player1.playerCard.get(i).setIsFound(true);
-                            player1.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player1.checkStatus();
-                            if (player1.status == Player.STATUS.NO_BINGO) {
-                                Player1BingoLabel.setText("NO BINGO");
-                            } else if (player1.status == Player.STATUS.FIRST_BINGO) {
-                                Player1BingoLabel.setText("FİRST BINGO");
-                            } else if (player1.status == Player.STATUS.SECOND_BINGO) {
-                                Player1BingoLabel.setText("SECOND BİNGO");
-                            } else if (player1.status == Player.STATUS.BINGO) {
-                                Player1BingoLabel.setText("BINGO");
-                            }
-                            if (player1.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
+                number = cardNumbers.getWithDownNode(numberIndex);
+                numberColumnIndex = number / 10;
+            }
+        }
+    }
+
+    private void generateRandomPermutation(int boundry) {
+        Random random = new Random();
+        if (randomNumbers.size() < boundry) {
+            int randomNumber;
+            do {
+                randomNumber = random.nextInt(boundry) + 1;
+            } while (randomNumbers.contains(randomNumber));
+
+            randomNumbers.addToEnd(randomNumber);
+            numberLabel.setText(Integer.toString(randomNumber));
+
+            JLabel[] bingoLabels = new JLabel[playerCount];
+            for (int i = 0; i < playerCount; i++) {
+                try {
+                    String labelName = String.format("Player%dBingoLabel", i + 1);
+                    JLabel playerLabel = (JLabel) getClass().getDeclaredField(labelName).get(this);
+                    bingoLabels[i] = playerLabel;
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
                 }
-                for (int i = 0; i < player2.playerCard.size; i++) {
-                    String text = player2.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player2.playerCard.get(i).setIsFound(true);
-                            player2.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player2.checkStatus();
-                            if (player2.status == Player.STATUS.NO_BINGO) {
-                                Player2BingoLabel.setText("NO BINGO");
-                            } else if (player2.status == Player.STATUS.FIRST_BINGO) {
-                                Player2BingoLabel.setText("FIRST BINGO");
-                            } else if (player2.status == Player.STATUS.SECOND_BINGO) {
-                                Player2BingoLabel.setText("SECOND BINGO");
-                            } else if (player2.status == Player.STATUS.BINGO) {
-                                Player2BingoLabel.setText("BINGO");
-                            }
-                            if (player2.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
-                }
-                break;
-            case 3:
-                for (int i = 0; i < player1.playerCard.size; i++) {
-                    String text = player1.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player1.playerCard.get(i).setIsFound(true);
-                            player1.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player1.checkStatus();
-                            if (player1.status == Player.STATUS.NO_BINGO) {
-                                Player1BingoLabel.setText("NO BINGO");
-                            } else if (player1.status == Player.STATUS.FIRST_BINGO) {
-                                Player1BingoLabel.setText("FİRST BINGO");
-                            } else if (player1.status == Player.STATUS.SECOND_BINGO) {
-                                Player1BingoLabel.setText("SECOND BİNGO");
-                            } else if (player1.status == Player.STATUS.BINGO) {
-                                Player1BingoLabel.setText("BINGO");
-                            }
-                            if (player1.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < player2.playerCard.size; i++) {
-                    String text = player2.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player2.playerCard.get(i).setIsFound(true);
-                            player2.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player2.checkStatus();
-                            if (player2.status == Player.STATUS.NO_BINGO) {
-                                Player2BingoLabel.setText("NO BINGO");
-                            } else if (player2.status == Player.STATUS.FIRST_BINGO) {
-                                Player2BingoLabel.setText("FIRST BINGO");
-                            } else if (player2.status == Player.STATUS.SECOND_BINGO) {
-                                Player2BingoLabel.setText("SECOND BINGO");
-                            } else if (player2.status == Player.STATUS.BINGO) {
-                                Player2BingoLabel.setText("BINGO");
-                            }
-                            if (player2.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < player3.playerCard.size; i++) {
-                    String text = player3.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player3.playerCard.get(i).setIsFound(true);
-                            player3.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player3.checkStatus();
-                            if (player3.status == Player.STATUS.NO_BINGO) {
-                                Player3BingoLabel.setText("NO BINGO");
-                            } else if (player3.status == Player.STATUS.FIRST_BINGO) {
-                                Player3BingoLabel.setText("FIRST BINGO");
-                            } else if (player3.status == Player.STATUS.SECOND_BINGO) {
-                                Player3BingoLabel.setText("SECOND BINGO");
-                            } else if (player3.status == Player.STATUS.BINGO) {
-                                Player3BingoLabel.setText("BINGO");
-                            }
-                            if (player3.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 3 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
-                }
-                break;
-            case 4:
-                for (int i = 0; i < player1.playerCard.size; i++) {
-                    String text = player1.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player1.playerCard.get(i).setIsFound(true);
-                            player1.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player1.checkStatus();
-                            if (player1.status == Player.STATUS.NO_BINGO) {
-                                Player1BingoLabel.setText("NO BINGO");
-                            } else if (player1.status == Player.STATUS.FIRST_BINGO) {
-                                Player1BingoLabel.setText("FİRST BINGO");
-                            } else if (player1.status == Player.STATUS.SECOND_BINGO) {
-                                Player1BingoLabel.setText("SECOND BİNGO");
-                            } else if (player1.status == Player.STATUS.BINGO) {
-                                Player1BingoLabel.setText("BINGO");
-                            }
-                            if (player1.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 1 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < player2.playerCard.size; i++) {
-                    String text = player2.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player2.playerCard.get(i).setIsFound(true);
-                            player2.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player2.checkStatus();
-                            if (player2.status == Player.STATUS.NO_BINGO) {
-                                Player2BingoLabel.setText("NO BINGO");
-                            } else if (player2.status == Player.STATUS.FIRST_BINGO) {
-                                Player2BingoLabel.setText("FIRST BINGO");
-                            } else if (player2.status == Player.STATUS.SECOND_BINGO) {
-                                Player2BingoLabel.setText("SECOND BINGO");
-                            } else if (player2.status == Player.STATUS.BINGO) {
-                                Player2BingoLabel.setText("BINGO");
-                            }
-                            if (player2.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 2 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < player3.playerCard.size; i++) {
-                    String text = player3.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player3.playerCard.get(i).setIsFound(true);
-                            player3.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player3.checkStatus();
-                            if (player3.status == Player.STATUS.NO_BINGO) {
-                                Player3BingoLabel.setText("NO BINGO");
-                            } else if (player3.status == Player.STATUS.FIRST_BINGO) {
-                                Player3BingoLabel.setText("FIRST BINGO");
-                            } else if (player3.status == Player.STATUS.SECOND_BINGO) {
-                                Player3BingoLabel.setText("SECOND BINGO");
-                            } else if (player3.status == Player.STATUS.BINGO) {
-                                Player3BingoLabel.setText("BINGO");
-                            }
-                            if (player3.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 3 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < player4.playerCard.size; i++) {
-                    String text = player4.playerCard.get(i).getText().trim();
-                    if (!text.isEmpty()) {
-                        int parsedNumber = Integer.parseInt(text);
-                        if (parsedNumber == number) {
-                            player4.playerCard.get(i).setIsFound(true);
-                            player4.playerCard.get(i).setColor(new Color(255, 153, 153));
-                            player4.checkStatus();
-                            if (player4.status == Player.STATUS.NO_BINGO) {
-                                Player4BingoLabel.setText("NO BINGO");
-                            } else if (player4.status == Player.STATUS.FIRST_BINGO) {
-                                Player4BingoLabel.setText("FIRST BINGO");
-                            } else if (player4.status == Player.STATUS.SECOND_BINGO) {
-                                Player4BingoLabel.setText("SECOND BINGO");
-                            } else if (player4.status == Player.STATUS.BINGO) {
-                                Player4BingoLabel.setText("BINGO");
-                            }
-                            if (player4.isOver()) {
-                                JOptionPane.showMessageDialog(this, "PLAYER 4 WON", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
-                                this.dispose();
-                                this.setVisible(false);
-                                return;
-                            }
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
+            }
+            game.checkNumbers(playerCount, numberLabel, bingoLabels, this);
         }
     }
 
@@ -1822,17 +1295,7 @@ public class GameFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newNumberButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newNumberButtonActionPerformed
-        if (randomNumbers.size < 90) {
-            int randomNumber;
-            do {
-                randomNumber = random.nextInt(90) + 1;
-            } while (randomNumbers.contains(randomNumber));
-
-            randomNumbers.addToEnd(randomNumber);
-            numberLabel.setText(Integer.toString(randomNumber));
-            checkNumbers(playerCount);
-
-        }
+        generateRandomPermutation(90);
     }//GEN-LAST:event_newNumberButtonActionPerformed
 
     /**

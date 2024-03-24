@@ -25,11 +25,10 @@ public class Player {
 
     public void checkStatus() {
         bingoCount = 0;
-
         for (int i = 0; i < 3; i++) {
             int isFoundCounter = 0;
             for (int j = 0; j < 9; j++) {
-                if (playerCard.get((i * 9) + j).getIsFound()) {
+                if (playerCard.getWithDownNode((i * 9) + j).getIsFound()) {
                     isFoundCounter++;
                 }
             }
@@ -38,7 +37,6 @@ public class Player {
             }
 
         }
-
         if (bingoCount == 0) {
             status = STATUS.NO_BINGO;
         } else if (bingoCount == 1) {

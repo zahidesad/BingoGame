@@ -1,5 +1,6 @@
 package BingoGameClasses;
 
+import java.util.Iterator;
 import java.util.function.Predicate;
 
 /**
@@ -7,11 +8,14 @@ import java.util.function.Predicate;
  * @author zahid
  * @param <T>
  */
-public class BingoLinkedList<T> {
+public class BingoLinkedList<T> implements Iterable<T> {
 
-    Node<T> head;
-    Node<T> tail;
-    public int size;
+    private Node<T> head;
+    private Node<T> tail;
+    private int size;
+
+    public BingoLinkedList() {
+    }
 
     public void addToFirst(T data) {
         Node<T> newNode = new Node<>(data);
@@ -35,27 +39,6 @@ public class BingoLinkedList<T> {
             tail.next = newNode;
             newNode.prev = tail;
             tail = newNode;
-        }
-        size++;
-    }
-
-    public void insertAfter(T key, T data) {
-        Node<T> newNode = new Node<>(data);
-        Node<T> current = head;
-        while (current != null) {
-            if (current.data.equals(key)) {
-                newNode.next = current.next;
-                if (current.next != null) {
-                    current.next.prev = newNode;
-                }
-                current.next = newNode;
-                newNode.prev = current;
-                if (current == tail) {
-                    tail = newNode;
-                }
-                break;
-            }
-            current = current.next;
         }
         size++;
     }
@@ -87,31 +70,16 @@ public class BingoLinkedList<T> {
     }
 
     public T get(int index) {
-        if (index < 0 || index >= size) {
-            //throw new IndexOutOfBoundsException("Index is out of bounds");
-            return null;
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+            //return null;
         }
 
-        Node<T> current = (Node<T>) head;
+        Node<T> current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
         return current.data;
-    }
-
-    public Node<T> getNode(int index) {
-        Node<T> current = head;
-        for (int i = 0; current != null && i < index; i++) {
-            current = current.next;
-        }
-        return current;
-    }
-
-    public void set(int index, T data) {
-        Node<T> node = getNode(index);
-        if (node != null) {
-            node.data = data;
-        }
     }
 
     public boolean contains(T data) {
@@ -159,12 +127,98 @@ public class BingoLinkedList<T> {
         size = 0;
     }
 
-    public void printList() {
+    public int size() {
+        return size;
+    }
+
+    public T getWithDownNode(int index) {
+        if (index >= size()) {
+            // index is out of bounds
+            return null;
+        }
+        Node<T> currentNode = head;
+        int count = 0;
+        while (count != index) {
+            currentNode = (count % 5 == 4) ? currentNode.down : currentNode.next;
+            count++;
+        }
+        return currentNode.data;
+    }
+
+    public void removeWithDownNode(T data) {
+        Node<T> temp = head;
+        Node<T> prev = null;
+        while (temp != null) {
+            if (temp.data.equals(data)) {
+                if (temp == head) {
+                    head = head.next;
+                } else {
+                    prev.down = (prev.down == null) ? prev.next = temp.next : temp.next;
+                }
+                size--;
+                return;
+            }
+            prev = temp;
+            temp = (temp.next == null && temp.down != null) ? temp.down : temp.next;
+        }
+    }
+
+    public void addByIndex(int index, T data) {
+        Node<T> newNode = new Node<>(data);
+        if (index == 0) {
+            newNode.next = head;
+            head = newNode;
+            size++;
+            return;
+        }
+
+        Node<T> current = head;
+        Node<T> prev = null;
+
+        int currentIndex = 0;
+        while (current != null && currentIndex != index) {
+            prev = current;
+            current = (currentIndex % 5 == 4) ? current.down : current.next;
+            currentIndex++;
+        }
+
+        if (index % 5 == 0) {
+            prev.down = newNode;
+        } else {
+            prev.next = newNode;
+        }
+        newNode.next = current;
+        size++;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         Node<T> current = head;
         while (current != null) {
-            System.out.print(current.data + " ");
+            sb.append(current.data).append(", ");
             current = current.next;
         }
-        System.out.println();
+        return sb.toString();
     }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private Node<T> current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                T data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
+    }
+
 }
