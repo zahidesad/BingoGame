@@ -20,6 +20,7 @@ public class GameFrame extends javax.swing.JFrame {
     ImageIcon imageBag = new ImageIcon("bag-image.png");
     // Generate a BingoLinkedList for selecting a random number
     BingoLinkedList<Integer> randomNumbers = new BingoLinkedList<>();
+    BingoLinkedList<JLabel> statusBingoLabel;
 
     public GameFrame(int playerCount) {
         initComponents();
@@ -42,16 +43,37 @@ public class GameFrame extends javax.swing.JFrame {
     }
 
     private void setCardsVisibility(int playerCount) {
-        // Set the cards according to player count
-        JLabel[] statusLabels = {player2StatusLabel, player3StatusLabel, player4StatusLabel};
-        JLabel[] bingoLabels = {Player2BingoLabel, Player3BingoLabel, Player4BingoLabel};
-        JPanel[] cardPanels = {Player2CardJPanel, Player3CardJPanel, Player4CardJPanel};
+        // Set the cards and label visibility according to player count
+        BingoLinkedList<JLabel> statusLabels = new BingoLinkedList<>();
+        statusLabels.addToEnd(player2StatusLabel);
+        statusLabels.addToEnd(player3StatusLabel);
+        statusLabels.addToEnd(player4StatusLabel);
 
+        BingoLinkedList<JLabel> bingoLabels = new BingoLinkedList<>();
+        bingoLabels.addToEnd(Player2BingoLabel);
+        bingoLabels.addToEnd(Player3BingoLabel);
+        bingoLabels.addToEnd(Player4BingoLabel);
+
+        BingoLinkedList<JPanel> cardPanels = new BingoLinkedList<>();
+        cardPanels.addToEnd(Player2CardJPanel);
+        cardPanels.addToEnd(Player3CardJPanel);
+        cardPanels.addToEnd(Player4CardJPanel);
+
+        statusBingoLabel = new BingoLinkedList<>();
+        for (int i = 0; i < playerCount; i++) {
+            try {
+                String labelName = String.format("Player%dBingoLabel", i + 1);
+                JLabel playerLabel = (JLabel) getClass().getDeclaredField(labelName).get(this);
+                statusBingoLabel.addToEnd(playerLabel);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
         for (int i = playerCount; i < 4; i++) {
-            cardPanels[i - 1].setVisible(false);
-            this.remove(cardPanels[i - 1]);
-            statusLabels[i - 1].setVisible(false);
-            bingoLabels[i - 1].setVisible(false);
+            cardPanels.get(i - 1).setVisible(false);
+            this.remove(cardPanels.get(i - 1));
+            statusLabels.get(i - 1).setVisible(false);
+            bingoLabels.get(i - 1).setVisible(false);
         }
         this.revalidate();
         this.repaint();
