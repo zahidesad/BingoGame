@@ -42,7 +42,44 @@ public class Game {
         return players.size();
     }
 
-    public void setCardNumbers(int playerCount) {
+    public int[][][] manuelTombalaCardGeneretor() {
+        int[][] card1
+                = {{5, -1, 22, -1, 45, -1, 60, 73, -1},
+                {-1, 10, -1, 31, 47, 58, 68, -1, -1},
+                {-1, 17, 26, 38, -1, -1, -1, 79, 86}};
+
+        int[][] card2
+                = {{-1, -1, 29, 34, -1, 53, 61, -1, 85},
+                {-1, -1, 26, 38, 40, -1, 65, -1, 84},
+                {4, 10, -1, 39, -1, 58, -1, 78, -1}};
+
+        int[][] card3
+                = {{1, -1, -1, 34, -1, 53, 61, -1, 85},
+                {-1, -1, 26, 38, 40, -1, 65, -1, 84},
+                {4, 10, -1, 39, -1, 58, -1, 78, -1}};
+
+        int[][] card4
+                = {{-1, 13, -1, 34, -1, 53, 61, -1, 85},
+                {-1, -1, 26, 38, 40, -1, 65, -1, 84},
+                {4, 10, -1, 39, -1, 58, -1, 78, -1}};
+
+        int[][][] allCards = {card1, card2, card3, card4};
+        return allCards;
+    }
+
+    int[][][] allCards = manuelTombalaCardGeneretor();
+
+    public void setCardNumbersManually(int playerCount) {
+        Player player;
+        for (int p = 0; p < playerCount; p++) {
+            player = getPlayer(p);
+            if (allCards != null && player != null) {
+                setPlayerCardNumbers(player, allCards[p]);
+            }
+        }
+    }
+
+    public void setCardNumbersRandomly(int playerCount) {
         BingoLinkedList<Integer> cardNumbers;
         Player player;
         for (int p = 0; p < playerCount; p++) {
@@ -82,12 +119,24 @@ public class Game {
         }
     }
 
-    public void checkNumbers(int playerCount, JLabel numberLabel, JLabel[] bingoLabels, JFrame jFrame) {
+    private void setPlayerCardNumbers(Player player, int[][] cardNumbers) { // Method overloading for generating card numbers using array
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (cardNumbers[i][j] == -1) {
+                    continue;
+                } else {
+                    player.playerCard.getWithDownNode((i * 9) + j).setText(Integer.toString(cardNumbers[i][j]));
+                }
+            }
+        }
+    }
+
+    public void checkNumbers(int playerCount, JLabel numberLabel, BingoLinkedList<JLabel> bingoLabels, JFrame jFrame) {
         int number = Integer.parseInt(numberLabel.getText());
 
         for (int j = 0; j < players.size(); j++) {
             Player player = players.get(j);
-            JLabel bingoLabel = bingoLabels[j];
+            JLabel bingoLabel = bingoLabels.get(j);
             for (int i = 0; i < player.playerCard.size(); i++) {
                 String text = player.playerCard.getWithDownNode(i).getText().trim();
                 if (!text.isEmpty()) {
