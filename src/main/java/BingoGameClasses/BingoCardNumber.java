@@ -64,7 +64,7 @@ public class BingoCardNumber {
 
         for (int j = 0; j < 3; j++) {
             // Add all numbers 1-90 to the list
-            for (int i = 1; i <= 90; i++) {
+            for (int i = 1; i < 90; i++) {
                 allNumbers.addToEnd(i);
             }
             for (int i = 0; i < 5; i++) {

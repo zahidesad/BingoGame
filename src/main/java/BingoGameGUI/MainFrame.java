@@ -18,6 +18,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         ImageLabel.setIcon(imageBingo);
+        isRandomRadioButton.setSelected(true);
     }
 
     /**
@@ -105,6 +106,7 @@ public class MainFrame extends javax.swing.JFrame {
         isRandomRadioButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         isRandomRadioButton.setForeground(new java.awt.Color(0, 0, 0));
         isRandomRadioButton.setText("Generate Tombala Cards Randomly");
+        isRandomRadioButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         SettingsPanel.add(isRandomRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
 
         MainJPanel.add(SettingsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 160, 410, 400));

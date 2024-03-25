@@ -28,7 +28,9 @@ public class GameFrame extends javax.swing.JFrame {
         this.setSize(1172, 615);
         imageLabel.setIcon(imageBag);
         this.playerCount = playerCount;
+        this.isRandom = isRandom;
         this.game = new Game(playerCount);
+        game.initializePermutation(90);
         setCardsVisibility(playerCount);
         addLabelsToList(playerCount);
         if (isRandom) {
@@ -36,6 +38,7 @@ public class GameFrame extends javax.swing.JFrame {
         } else {
             game.setCardNumbersManually(playerCount);
         }
+
     }
 
     // To get player information
@@ -53,20 +56,9 @@ public class GameFrame extends javax.swing.JFrame {
 
     private void setCardsVisibility(int playerCount) {
         // Set the cards and label visibility according to player count
-        BingoLinkedList<JLabel> statusLabels = new BingoLinkedList<>();
-        statusLabels.addToEnd(player2StatusLabel);
-        statusLabels.addToEnd(player3StatusLabel);
-        statusLabels.addToEnd(player4StatusLabel);
-
-        BingoLinkedList<JLabel> bingoLabels = new BingoLinkedList<>();
-        bingoLabels.addToEnd(Player2BingoLabel);
-        bingoLabels.addToEnd(Player3BingoLabel);
-        bingoLabels.addToEnd(Player4BingoLabel);
-
-        BingoLinkedList<JPanel> cardPanels = new BingoLinkedList<>();
-        cardPanels.addToEnd(Player2CardJPanel);
-        cardPanels.addToEnd(Player3CardJPanel);
-        cardPanels.addToEnd(Player4CardJPanel);
+        JLabel[] statusLabels = {player2StatusLabel, player3StatusLabel, player4StatusLabel};
+        JLabel[] bingoLabels = {Player2BingoLabel, Player3BingoLabel, Player4BingoLabel};
+        JPanel[] cardPanels = {Player2CardJPanel, Player3CardJPanel, Player4CardJPanel};;
 
         statusBingoLabel = new BingoLinkedList<>();
         for (int i = 0; i < playerCount; i++) {
@@ -79,10 +71,10 @@ public class GameFrame extends javax.swing.JFrame {
             }
         }
         for (int i = playerCount; i < 4; i++) {
-            cardPanels.get(i - 1).setVisible(false);
-            this.remove(cardPanels.get(i - 1));
-            statusLabels.get(i - 1).setVisible(false);
-            bingoLabels.get(i - 1).setVisible(false);
+            cardPanels[i - 1].setVisible(false);
+            this.remove(cardPanels[i - 1]);
+            statusLabels[i - 1].setVisible(false);
+            bingoLabels[i - 1].setVisible(false);
         }
         this.revalidate();
         this.repaint();
@@ -100,20 +92,6 @@ public class GameFrame extends javax.swing.JFrame {
                     index++;
                 }
             }
-        }
-    }
-
-    private void generateRandomPermutation(int boundry) {
-        Random random = new Random();
-        if (randomNumbers.size() < boundry) {
-            int randomNumber;
-            do {
-                randomNumber = random.nextInt(boundry) + 1;
-            } while (randomNumbers.contains(randomNumber));
-
-            randomNumbers.addToEnd(randomNumber);
-            numberLabel.setText(Integer.toString(randomNumber));
-            game.checkNumbers(playerCount, numberLabel, statusBingoLabel, this);
         }
     }
 
@@ -1268,7 +1246,8 @@ public class GameFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newNumberButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newNumberButtonActionPerformed
-        generateRandomPermutation(90);
+        game.updateAndCheckBingoNumber(isRandom, numberLabel, statusBingoLabel, this);
+        game.checkNumbers(playerCount, numberLabel, statusBingoLabel, this);
     }//GEN-LAST:event_newNumberButtonActionPerformed
 
     /**
