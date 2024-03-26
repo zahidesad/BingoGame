@@ -37,14 +37,13 @@ public class Player {
             }
 
         }
-        if (bingoCount == 0) {
-            status = STATUS.NO_BINGO;
-        } else if (bingoCount == 1) {
-            status = STATUS.FIRST_BINGO;
-        } else if (bingoCount == 2) {
-            status = STATUS.SECOND_BINGO;
-        } else if (bingoCount == 3) {
-            status = STATUS.BINGO;
+        switch (bingoCount) {
+            case 0 -> status = STATUS.NO_BINGO;
+            case 1 -> status = STATUS.FIRST_BINGO;
+            case 2 -> status = STATUS.SECOND_BINGO;
+            case 3 -> status = STATUS.BINGO;
+            default -> {
+            }
         }
     }
 

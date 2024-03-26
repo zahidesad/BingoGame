@@ -14,12 +14,12 @@ public class Game {
 
     public static final int MAX_PLAYERS = 4;
     private int playerCount;
-    private BingoLinkedList<Player> players;
+    private final BingoLinkedList<Player> players;
 
     private int[] permutation;
     private int currentIndex;
     private int index = 0;
-    private int[] randomPermutation = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; // <---------------------------------- Please write your own numbers.
+    private final int[] randomPermutation = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 90}; // <---------------------------------- Please write your own numbers.
 
     public Game(int playerCount) {
         this.playerCount = playerCount;
@@ -46,7 +46,7 @@ public class Game {
                 {4, 10, -1, 39, -1, 58, -1, 78, -1}};
 
         int[][] card4
-                = {{-1, 13, -1, 34, -1, 53, 61, -1, 85},
+                = {{-1, 13, -1, 34, -1, 53, 61, -1, 90},
                 {-1, -1, 26, 38, 40, -1, 65, -1, 84},
                 {4, 10, -1, 39, -1, 58, -1, 78, -1}};
 
@@ -145,7 +145,7 @@ public class Game {
             return null;
         }
 
-        BingoLinkedList<Integer> cardNumbers = new BingoLinkedList<>();
+        BingoLinkedList<Integer> cardNumbers;
         cardNumbers = BingoCardNumber.cardNumberGenerator();
 
         return cardNumbers;
@@ -171,9 +171,7 @@ public class Game {
     private void setPlayerCardNumbers(Player player, int[][] cardNumbers) { // Method overloading for generating card numbers using array
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
-                if (cardNumbers[i][j] == -1) {
-                    continue;
-                } else {
+                if (cardNumbers[i][j] != -1) {
                     player.playerCard.getWithDownNode((i * 9) + j).setText(Integer.toString(cardNumbers[i][j]));
                 }
             }
@@ -198,18 +196,10 @@ public class Game {
                         player.playerCard.getWithDownNode(i).setColor(new Color(255, 153, 153));
                         player.checkStatus();
                         switch (player.status) {
-                            case NO_BINGO:
-                                bingoLabel.setText("NO BINGO");
-                                break;
-                            case FIRST_BINGO:
-                                bingoLabel.setText("FIRST BINGO");
-                                break;
-                            case SECOND_BINGO:
-                                bingoLabel.setText("SECOND BINGO");
-                                break;
-                            case BINGO:
-                                bingoLabel.setText("BINGO");
-                                break;
+                            case NO_BINGO -> bingoLabel.setText("NO BINGO");
+                            case FIRST_BINGO -> bingoLabel.setText("FIRST BINGO");
+                            case SECOND_BINGO -> bingoLabel.setText("SECOND BINGO");
+                            case BINGO -> bingoLabel.setText("BINGO");
                         }
                         if (player.isOver()) {
                             bingoLabel.setText("BINGO");
