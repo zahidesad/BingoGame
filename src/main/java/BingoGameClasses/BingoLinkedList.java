@@ -139,7 +139,7 @@ public class BingoLinkedList<T> implements Iterable<T> {
         Node<T> currentNode = head;
         int count = 0;
         while (count != index) {
-            currentNode = (count % 5 == 4) ? currentNode.down : currentNode.next;
+            currentNode = (currentNode.next == null) ? currentNode.down : currentNode.next;
             count++;
         }
         return currentNode.data;
@@ -178,7 +178,7 @@ public class BingoLinkedList<T> implements Iterable<T> {
         int currentIndex = 0;
         while (current != null && currentIndex != index) {
             prev = current;
-            current = (currentIndex % 5 == 4) ? current.down : current.next;
+            current = (current.next==null) ? current.down : current.next;
             currentIndex++;
         }
 
