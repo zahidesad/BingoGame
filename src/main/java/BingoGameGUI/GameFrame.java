@@ -4,7 +4,6 @@ import javax.swing.ImageIcon;
 import BingoGameClasses.*;
 import java.awt.Component;
 import Custom_GUI_Components.CustomJLabel;
-import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,13 +13,12 @@ import javax.swing.JPanel;
  */
 public class GameFrame extends javax.swing.JFrame {
 
-    private Game game;
+    private final Game game;
     private int playerCount;
     private boolean isRandom;
 
     ImageIcon imageBag = new ImageIcon("bag-image.png");
     // Generate a BingoLinkedList for selecting a random number
-    BingoLinkedList<Integer> randomNumbers = new BingoLinkedList<>();
     BingoLinkedList<JLabel> statusBingoLabel;
 
     public GameFrame(int playerCount, boolean isRandom) {
@@ -58,7 +56,7 @@ public class GameFrame extends javax.swing.JFrame {
         // Set the cards and label visibility according to player count
         JLabel[] statusLabels = {player2StatusLabel, player3StatusLabel, player4StatusLabel};
         JLabel[] bingoLabels = {Player2BingoLabel, Player3BingoLabel, Player4BingoLabel};
-        JPanel[] cardPanels = {Player2CardJPanel, Player3CardJPanel, Player4CardJPanel};;
+        JPanel[] cardPanels = {Player2CardJPanel, Player3CardJPanel, Player4CardJPanel};
 
         statusBingoLabel = new BingoLinkedList<>();
         for (int i = 0; i < playerCount; i++) {
@@ -87,8 +85,8 @@ public class GameFrame extends javax.swing.JFrame {
             getPlayer(i).playerCard = new BingoLinkedList<>();
             Component[] cardComponents = cardPanels[i].getComponents();
             for (Component component : cardComponents) {
-                if (component instanceof CustomJLabel) {
-                    getPlayer(i).playerCard.addByIndex(index, (CustomJLabel) component);
+                if (component instanceof CustomJLabel customJLabel) {
+                    getPlayer(i).playerCard.addByIndex(index, customJLabel);
                     index++;
                 }
             }
