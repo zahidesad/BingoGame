@@ -18,7 +18,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         ImageLabel.setIcon(imageBingo);
-        isRandomRadioButton.setSelected(true);
+        isRandomCheckBox.setSelected(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -34,7 +34,7 @@ public class MainFrame extends javax.swing.JFrame {
         PlayerCountLabel = new javax.swing.JLabel();
         PlayingButton = new Custom_GUI_Components.CustomJButton();
         txtPlayerCount = new javax.swing.JTextField();
-        isRandomRadioButton = new javax.swing.JCheckBox();
+        isRandomCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -98,11 +98,11 @@ public class MainFrame extends javax.swing.JFrame {
         txtPlayerCount.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         SettingsPanel.add(txtPlayerCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 50, 40));
 
-        isRandomRadioButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        isRandomRadioButton.setForeground(new java.awt.Color(0, 0, 0));
-        isRandomRadioButton.setText("Generate Tombala Cards Randomly");
-        isRandomRadioButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        SettingsPanel.add(isRandomRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
+        isRandomCheckBox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        isRandomCheckBox.setForeground(new java.awt.Color(0, 0, 0));
+        isRandomCheckBox.setText("Generate Tombala Cards Randomly");
+        isRandomCheckBox.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        SettingsPanel.add(isRandomCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
 
         MainJPanel.add(SettingsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 160, 410, 400));
 
@@ -115,12 +115,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void PlayingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayingButtonActionPerformed
         try {
             int playerCount = Integer.parseInt(txtPlayerCount.getText());
-            boolean isRandom = isRandomRadioButton.isSelected();
+            boolean isRandom = isRandomCheckBox.isSelected();
             if (playerCount > 0 && playerCount <= 4) {
                 if (gameFrame == null) {
                     gameFrame = new GameFrame(playerCount, isRandom);
                 }
-                gameFrame.setIsRandom(isRandomRadioButton.isSelected());
+                gameFrame.setIsRandom(isRandomCheckBox.isSelected());
                 gameFrame.setLocationRelativeTo(null); //It allows the GameFrame to open in the middle of the screen
                 gameFrame.show();
                 this.dispose();
@@ -181,7 +181,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel PlayerCountLabel;
     private Custom_GUI_Components.CustomJButton PlayingButton;
     private javax.swing.JPanel SettingsPanel;
-    private javax.swing.JCheckBox isRandomRadioButton;
+    private javax.swing.JCheckBox isRandomCheckBox;
     private javax.swing.JTextField txtPlayerCount;
     // End of variables declaration//GEN-END:variables
 
