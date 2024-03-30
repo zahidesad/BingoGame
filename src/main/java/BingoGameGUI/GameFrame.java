@@ -14,25 +14,23 @@ import javax.swing.JPanel;
 public class GameFrame extends javax.swing.JFrame {
 
     private final Game game;
-    private int playerCount;
     private boolean isRandom;
 
     ImageIcon imageBag = new ImageIcon("bag-image.png");
-    // Generate a BingoLinkedList for selecting a random number
     BingoLinkedList<JLabel> statusBingoLabel;
 
     public GameFrame(int playerCount, boolean isRandom) {
         initComponents();
         this.setSize(1172, 615);
         imageLabel.setIcon(imageBag);
-        this.playerCount = playerCount;
         this.isRandom = isRandom;
         this.game = new Game(playerCount);
-        game.initializePermutation(90);
+
         setCardsVisibility(playerCount);
         addLabelsToList(playerCount);
         if (isRandom) {
             game.setCardNumbersRandomly(playerCount);
+            game.initializePermutation(90);
         } else {
             game.setCardNumbersManually(playerCount);
         }
@@ -42,10 +40,6 @@ public class GameFrame extends javax.swing.JFrame {
     // To get player information
     public Player getPlayer(int index) {
         return game.getPlayer(index);
-    }
-
-    protected void setPlayerCount(int playerCount) {
-        this.playerCount = playerCount;
     }
 
     protected void setIsRandom(boolean isRandom) {
@@ -1245,7 +1239,6 @@ public class GameFrame extends javax.swing.JFrame {
 
     private void newNumberButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newNumberButtonActionPerformed
         game.updateAndCheckBingoNumber(isRandom, numberLabel, statusBingoLabel, this);
-        game.checkNumbers(playerCount, numberLabel, statusBingoLabel, this);
     }//GEN-LAST:event_newNumberButtonActionPerformed
 
     /**

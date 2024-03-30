@@ -16,10 +16,9 @@ public class Game {
     private int playerCount;
     private final BingoLinkedList<Player> players;
 
-    private int[] permutation;
     private int currentIndex;
     private int index = 0;
-    private final int[] randomPermutation = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 90}; // <---------------------------------- Please write your own numbers.
+    private int[] randomPermutation = {6,15,36,67,74,21,34,55,65,90,3,10,50,64,73}; // <---------------------------------- Please write your own numbers.
 
     public Game(int playerCount) {
         this.playerCount = playerCount;
@@ -29,26 +28,26 @@ public class Game {
         }
     }
 
-    public int[][][] manuelTombalaCardGeneretor() {
+    public int[][][] manuelTombalaCardGeneretor() { // <-------------------------- Please write your own card numbers
         int[][] card1
                 = {{5, -1, 22, -1, 45, -1, 60, 73, -1},
                 {-1, 10, -1, 31, 47, 58, 68, -1, -1},
                 {-1, 17, 26, 38, -1, -1, -1, 79, 86}};
 
         int[][] card2
-                = {{-1, -1, 29, 34, -1, 53, 61, -1, 85},
-                {-1, -1, 26, 38, 40, -1, 65, -1, 84},
-                {4, 10, -1, 39, -1, 58, -1, 78, -1}};
+                = {{8, -1, 21, -1, 43, -1, 64, -1, 88},
+                {-1, 13, 28, -1, -1, 54, 67, -1, 85},
+                {2, -1, -1, 35, -1, 52, 62, 72, -1}};
 
         int[][] card3
-                = {{1, -1, -1, 34, -1, 53, 61, -1, 85},
-                {-1, -1, 26, 38, 40, -1, 65, -1, 84},
-                {4, 10, -1, 39, -1, 58, -1, 78, -1}};
+                = {{2, 10, -1, -1, 48, -1, -1, 77, 88},
+                {1, -1, 23, 34, -1, -1, 60, 78, 84},
+                {3, 16, -1, -1, 40, -1, 62, 71, -1}};
 
         int[][] card4
-                = {{-1, 13, -1, 34, -1, 53, 61, -1, 90},
-                {-1, -1, 26, 38, 40, -1, 65, -1, 84},
-                {4, 10, -1, 39, -1, 58, -1, 78, -1}};
+                = {{6, 15, -1, 36, -1, -1, 67, 74, -1},
+                {-1, -1, 21, 34, -1, 55, 65, -1, 90},
+                {3, 10, -1, -1, -1, 50, 64, 73, -1}};
 
         int[][][] allCards = {card1, card2, card3, card4};
         return allCards;
@@ -87,16 +86,16 @@ public class Game {
     }
 
     public void initializePermutation(int n) {
-        permutation = generatePermutation(n);
+        randomPermutation = generatePermutation(n);
         currentIndex = 0;
     }
 
     public int getNextNumber() {
-        if (currentIndex >= permutation.length) {
-            permutation = generatePermutation(permutation.length);
+        if (currentIndex >= randomPermutation.length) {
+            randomPermutation = generatePermutation(randomPermutation.length);
             currentIndex = 0;
         }
-        int nextNumber = permutation[currentIndex];
+        int nextNumber = randomPermutation[currentIndex];
         currentIndex++;
         return nextNumber;
     }
@@ -196,10 +195,14 @@ public class Game {
                         player.playerCard.getWithDownNode(i).setColor(new Color(255, 153, 153));
                         player.checkStatus();
                         switch (player.status) {
-                            case NO_BINGO -> bingoLabel.setText("NO BINGO");
-                            case FIRST_BINGO -> bingoLabel.setText("FIRST BINGO");
-                            case SECOND_BINGO -> bingoLabel.setText("SECOND BINGO");
-                            case BINGO -> bingoLabel.setText("BINGO");
+                            case NO_BINGO ->
+                                bingoLabel.setText("NO BINGO");
+                            case FIRST_BINGO ->
+                                bingoLabel.setText("FIRST BINGO");
+                            case SECOND_BINGO ->
+                                bingoLabel.setText("SECOND BINGO");
+                            case BINGO ->
+                                bingoLabel.setText("BINGO");
                         }
                         if (player.isOver()) {
                             bingoLabel.setText("BINGO");
