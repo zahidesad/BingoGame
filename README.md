@@ -2,7 +2,7 @@
  Bingo Game Using Multi-Linked List For Data Structures Course
 
 1) Before starting the project description, if you want to learn how the numbers on the bingo cards and the numbers to be drawn are manually adjusted, please check the Application Details section.
-2) Also, if you encounter an error when you run the application via “ZahidEsadBaltaciMainFrame”, please check the Notes section.
+2) Also, if you encounter an error when you run the application via “MainFrame”, please check the Notes section.
 
 # INTRODUCTION
 In this project, a bingo game was developed using Java Swing. The bingo game is played between two players and each player has a tombola card consisting of 15 numbers. Each card has 3 rows, and the 5 boxes in each row have numbers arranged horizontally. The remaining 4 boxes are blocked randomly. The aim of the project is to simulate this traditional bingo game. Multi Linked List was used to simulate this game.
@@ -10,9 +10,9 @@ The basic flow of the game is as follows: At the beginning, each player is given
 
 
 # CODE DESIGN
-## The main purpose of object “ZahidEsadBaltaciNode”:
+## The main purpose of object “Node”:
 This class provides a multiple node structure for use in bingo game. There are three nodes: next, previous, and down.
-## The main purpose of object “ZahidEsadBaltaciBingoLinkedList”:
+## The main purpose of object “BingoLinkedList”:
 This class provides a list data structure using the doubly linked list and multi linked list structure. In general, this structure offers the following functions:
 1) Special Methods for Multi Linked List: Special methods such as “addByIndex(), getWithDownNode() and removeWithDownNode()” perform the operations of adding, accessing, and removing the elements of the list in accordance with the purpose of the project (using a multi-linked list).
 2) Adding and Removing Elements in an Ordinary Way: Adding to the beginning and end of the list and removing a specific element from the list can be done. Methods such as “addToFirst(), addToEnd(), remove()” provide this.
@@ -20,9 +20,9 @@ This class provides a list data structure using the doubly linked list and multi
 4) Filtering and Removal: The removeIf() method can be used to remove elements that meet a certain condition from the list. This method removes elements that meet the specified condition from the list.
 5) Cleaning and Size: Clearing the list content and getting the size of the list can be done. The clear() and size() methods perform these functions.
 6) Iteration: Iterator interface is used to loop over the list. This allows accessing the elements of the list sequentially (I added for using for each loop).
--This class is designed to meet specific requirements for the Bingo game as well as a general linked list functionality. Below you can visually see the logic of “ZahidEsadBaltaciBingoLinkedList” class designed for the Bingo game:
+-This class is designed to meet specific requirements for the Bingo game as well as a general linked list functionality. Below you can visually see the logic of “BingoLinkedList” class designed for the Bingo game:
 ![image](https://github.com/zahidesad/BingoGame/assets/116666407/0efb9d89-b77a-4e8e-bb27-73a70f864fb2)
-## The main purpose of object “ZahidEsadBaltaciBingoCardNumber”:
+## The main purpose of object “BingoCardNumber”:
 -This class is used to generate Bingo card numbers. Bingo card consists of 3 rows and 5 columns (without blocked places), with each row containing numbers from a specific range of numbers. This class follows certain rules when generating random Bingo card numbers.
 -The “cardNumberGenerator()” method uses the “randomNumberGenerator()” method to generate random numbers and sorts these numbers in a certain order. In bingo cards, each column must contain numbers from a certain range of numbers. So, at each step, it checks whether the numbers are in a certain range and places the numbers in a sequential manner, while deciding in which row and column to place the next random number.
 
@@ -80,7 +80,7 @@ Last step: {12-52-65-70-83
             6-15-28-43-82
             4-38-44-48-85}
 As seen in the example scenario, groups of 3 (such as 43-44-48) may cause such a violation. Therefore, by using the "rearrangeNumbers()" method, groups of 3 are placed at the top of the list and this violation is prevented.
-## The main purpose of object “ZahidEsadBaltaciGame”:
+## The main purpose of object “Game”:
 -This class represents a Bingo game and manages different aspects of the game. In general, the purpose of this class is to:
 1) Player Management: Represents the players in the game. The number of players and their cards are managed through this class.
 2) Game Status: Tracks the current status of the game (checkNumbers() method). Information such as which player is in which round (bingo count), which numbers are drawn, and which player wins (updateAndCheckBingo() method) is stored and updated through this class.
@@ -137,32 +137,32 @@ This algorithm produces all permutations of an n-element array with equal probab
 5) End of Game Control: If a player makes Bingo or the game needs to end, this situation is detected, and necessary actions such as updating the current status are taken. (checkNumbers() method)
 -As a result, this class performs the functions of starting, managing and ending the Bingo game. It controls the basic logic and flow of the game and ensures that the game progresses smoothly.
 
-## The main purpose of object “ZahidEsadBaltaciPlayer”:
+## The main purpose of object “Player”:
 - This class represents a player in the Bingo game and keeps track of the card the player has and their Bingo status. In general, the purpose of this class is to:
 1) Player Card Management: Represents the player's Bingo card. The card is stored as CustomJLabel elements within a custom Bingo Linked List structure. Each item represents a number on the card.
 2) Bingo Status Tracking: Tracks the player's Bingo status. It checks whether the numbers on the card are marked correctly and determines how many Bingos the player has made. (checkStatus() method)
 3) Player Status Update: The player's Bingo status is updated based on the numbers marked on the card. If the numbers on the card are marked in a certain pattern, the player is detected to have made Bingo. (checkStatus() method)
 4) Determining Game End: It determines that the game is over when the player plays Bingo. This causes the game to end. (isOver() method)
 - This class manages the player's card while also updating the player's Bingo status and affecting the progress of the game. Tracks how many times the player has done Bingo. In this way, it tracks the player's success and progress in the game.
-The main purpose of object “ZahidEsadBaltaciMainFrame”:
+The main purpose of object “MainFrame”:
 - This class is the frame that must be run for the game to start. In addition, the number of players and whether the bingo cards and numbers to be drawn will be set as random or manual are determined here.
-The main purpose of object “ZahidEsadBaltaciGameFrame”:
+The main purpose of object “GameFrame”:
 - The purpose of this class is to visualize the game using the functions of all the classes written above. It is the GUI part of the project.
 
 # APPLICATION DETAILS
 ## How to manually set card numbers and numbers to draw
-1) Please go to the "ZahidEsadBaltaciGame" class in the "ZahidEsadBaltaciBingoGameClasses" java package.
+1) Please go to the "Game" class in the "BingoGameClasses" java package.
 2) Change the “randomPermutation []” array below to adjust the numbers to be drawn.
 ![image](https://github.com/zahidesad/BingoGame/assets/116666407/85583cbf-b143-415a-9d59-49b71cb065ae)
 3) To change bingo cards, please change the “manuelTombalaCardGeneretor()” method
 ![image](https://github.com/zahidesad/BingoGame/assets/116666407/3b35dab8-0602-4e0c-adf5-c2b36097592d)
-4) To see these changes on the screen, when you run the application via "ZahidEsadBaltaciMainFrame", do not tick the "Generate Bingo Card Randomly" checkbox, which you can see in the photo below.
+4) To see these changes on the screen, when you run the application via "MainFrame", do not tick the "Generate Bingo Card Randomly" checkbox, which you can see in the photo below.
 ![image](https://github.com/zahidesad/BingoGame/assets/116666407/4442fc83-e557-43c2-82b7-8933dcc8ca4d)
 ## Sample Scenario
 - In the scenario described visually below, not all stages of the game are given. If you want to watch the scenario consisting of all stages of the game, you can click on the drive link below.
 Video Link: 
 https://drive.google.com/file/d/1lB-sfblhSJzgc--VJEN8UuYU7LqduCBk/view?usp=sharing
-1) First, run the application via "ZahidEsadBaltaciMainFrame" in the "ZahidEsadBaltacıBingoGameGUI" java package.
+1) First, run the application via "MainFrame" in the "BingoGameGUI" java package.
 2) Select the number of players you want to play with (1-4 players allowed.) and whether you want to play with random cards. After this click “Click for playing” button. From this stage the game starts.
 ![image](https://github.com/zahidesad/BingoGame/assets/116666407/58c553aa-f599-4729-8bc6-6b44922f9093)
 3) Since we ticked the random checkbox at the beginning, everything in the game comes as random. To draw a number, the "Click for new number" button must be pressed.
@@ -178,7 +178,7 @@ https://drive.google.com/file/d/1lB-sfblhSJzgc--VJEN8UuYU7LqduCBk/view?usp=shari
 8) If all the player's numbers are marked, it is called bingo, and the game is over.
 ![image](https://github.com/zahidesad/BingoGame/assets/116666407/f6437f6c-b938-49bc-a872-d78c4d8749ae)
 # GUI PART
-Two JFrames were used in the project. The first of these is "ZahidEsadBaltaciMainFrame", and another is “ZahidEsadBaltaciGameFrame”. When designing these frames, "CustomJLabel" and "CustomJButton" classes were written specifically to use round labels and buttons with rounded corners. Additionally, some images were used in the GUI design.
+Two JFrames were used in the project. The first of these is "MainFrame", and another is “GameFrame”. When designing these frames, "CustomJLabel" and "CustomJButton" classes were written specifically to use round labels and buttons with rounded corners. Additionally, some images were used in the GUI design.
 # CONCULUSION
 In the beginning, one of the biggest challenges of the project was to correctly design and implement the multi-linked list structure. A multi-linked list is a data structure that often requires complex connections and operations. To overcome this challenge, I first had to thoroughly understand basic linked list concepts and then do in-depth research on how to create multiple links. During this process, I had the opportunity to learn more about algorithms and data structures, which was a very valuable learning experience for me.
 
@@ -186,7 +186,7 @@ However, in the later stages of the project, I encountered challenges with UI de
 
 One of the most important things I learned in the project was my ability to implement more complex data structures and algorithms. Understanding and implementing more advanced data structures such as multi linked list has greatly contributed to improving my software skills.
 # NOTES
-If you encounter an error when you run the application via “ZahidEsadBaltaciMainFrame”, follow the steps below.
+If you encounter an error when you run the application via “MainFrame”, follow the steps below.
 1) Please right click on the project name and select properties.
 ![image](https://github.com/zahidesad/BingoGame/assets/116666407/c5795077-d358-4c28-bba6-b39cf14165bb)
 2) Please go to the “Source” menu and set the "Source Binary Format" section to 17.
